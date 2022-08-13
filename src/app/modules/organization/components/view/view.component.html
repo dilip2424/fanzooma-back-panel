@@ -1,0 +1,235 @@
+<div class="row match-height">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="media pt-0 pb-2">
+          <div class="media-body">
+            <!-- name -->
+            <h4 class="font-medium-1 mb-1">
+              <i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
+              <ng-container *ngIf="organization">{{ organization.name }}
+              </ng-container>
+            </h4>
+
+            <!-- email -->
+            <span class="text-muted d-block mb-1">
+              <ng-container *ngIf="organization">{{ organization.email }}
+              </ng-container>
+            </span>
+
+            <!-- created at -->
+            <span class="text-muted d-block mb-1">
+              <ng-container *ngIf="organization">Joined at {{ organization.created_at | date }}
+              </ng-container>
+            </span>
+            <div class="clearfix"></div>
+
+            <!-- status -->
+            <ng-container *ngIf="organization">
+              <span *ngIf="organization.status == 'active'" class="badge bg-light-success mr-2">Active</span>
+              <span *ngIf="organization.status == 'inactive'" class="badge bg-light-danger mr-2">Inactive</span>
+            </ng-container>
+
+          </div>
+          <!-- back button -->
+          <button type="button" [routerLink]="['/organization']" class="btn btn-light btn-sm mr-1 mt-2">
+            <i class="fa fa-angle-double-left" aria-hidden="true"></i> Back
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row match-height">
+    <!-- Detail -->
+    <div class="col-xl-6 col-lg-6">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h4 class="card-title m-0">Detail</h4>
+              <span class="cursor-pointer"><i class="ft-more-vertical-"></i></span>
+            </div>
+            <div class="card-content">
+              <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                  <li class="d-flex align-items-center mb-2">
+                    <small>Area code :
+                      <i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
+                      <ng-container *ngIf="organization">{{ organization.area_code }}
+                      </ng-container>
+                    </small>
+                  </li>
+                  <li class="d-flex align-items-center mb-2">
+                    <small>TP balance :
+                      <i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
+                      <ng-container *ngIf="organization">${{organization.tp_balance | number:'1.2-2'}}</ng-container>
+                    </small>
+                  </li>
+                  <li class="d-flex align-items-center mb-2">
+                    <small>Used free plan :
+                      <i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
+                      <ng-container *ngIf="organization">{{
+                        organization.used_free_plan ? "Yes" : "No"
+                        }}</ng-container>
+                    </small>
+                  </li>
+                  <li class="d-flex align-items-center mb-2">
+                    <small>Next due date :
+                      <i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
+                      <ng-container *ngIf="organization">{{
+                        organization.next_due_date | date: "dd MMMM YYYY"
+                        }}</ng-container>
+                    </small>
+                  </li>
+                  <li class="d-flex align-items-center mb-2">
+                    <small>Next due amount :
+                      <i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
+                      <ng-container *ngIf="organization">${{
+                        (organization.next_amount / 100) | number:'1.2-2'
+                        }}</ng-container>
+                    </small>
+                  </li>
+                  <li class="d-flex align-items-center mb-2">
+                    <small>Current plan :
+                      <i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
+                      <ng-container *ngIf="organization">{{
+                        getPlanName(organization.active_planid)
+                        }}</ng-container>
+                    </small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-xl-6 col-lg-6">
+      <div class="row">
+        <!-- locations count -->
+        <div class="col-xl-6 col-lg-6 col-12">
+          <div class="card">
+            <div class="card-content">
+              <div class="card-body paddingcustom" [routerLink]="organization && ['/Fanzooma-youtube-videos/organization', organization.id]">
+                <div class="media">
+                  <div class="media-body text-left">
+                    <h3 class="mb-1 success">
+                      <i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
+                      <ng-container *ngIf="organization">{{(organization.locations_count ?? 0) | number}}</ng-container>
+                    </h3>
+                    <span class="white-space-no-wrap">Locations</span>
+                  </div>
+                  <div class="media-right align-self-center">
+                    <i class="ft-map-pin success font-large-1 float-right"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- broadcasts count -->
+        <div class="col-xl-6 col-lg-6 col-12">
+          <div class="card">
+            <div class="card-content">
+              <div class="card-body paddingcustom" [routerLink]="organization && ['/dashboard']" [state]="{ id: organization?.id, isAnalyticsTab: true }">
+                <div class="media">
+                  <div class="media-body text-left">
+                    <h3 class="mb-1 danger">
+                      <i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
+                      <ng-container *ngIf="organization">{{
+                        (organization.broadcasts_count ?? 0) | number
+                        }}</ng-container>
+                    </h3>
+                    <span>Broadcasts</span>
+                  </div>
+                  <div class="media-right align-self-center">
+                    <i class="ft-speaker font-large-1 float-right"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- clubs count  -->
+        <div class="col-xl-6 col-lg-6 col-12">
+          <div class="card">
+            <div class="card-content">
+              <div class="card-body paddingcustom" [routerLink]="organization && ['/dashboard']" [state]="{ id: organization?.id, isAnalyticsTab: true }">
+                <div class="media">
+                  <div class="media-body text-left">
+                    <h3 class="mb-1 warning">
+                      <i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
+                      <ng-container *ngIf="organization">{{
+                        (organization.clubs_count ?? 0) | number
+                        }}</ng-container>
+                    </h3>
+                    <span>Clubs</span>
+                  </div>
+                  <div class="media-right align-self-center">
+                    <i class="ft-list warning font-large-1 float-right"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- fans count  -->
+        <div class="col-xl-6 col-lg-6 col-12">
+          <div class="card">
+            <div class="card-content">
+              <div class="card-body paddingcustom" [routerLink]="organization && ['/dashboard']" [state]="{ id: organization?.id, isAnalyticsTab: true }">
+                <div class="media">
+                  <div class="media-body text-left">
+                    <h3 class="mb-1 warning">
+                      <i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
+                      <ng-container *ngIf="organization"><i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
+                        <ng-container *ngIf="organization">{{
+                          (organization.fans_count ?? 0) | number
+                          }}</ng-container>
+                      </ng-container>
+                    </h3>
+                    <span>Fans</span>
+                  </div>
+                  <div class="media-right align-self-center">
+                    <i class="ft-heart warning font-large-1 float-right"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- locations numbers -->
+        <div class="col-xl-6 col-lg-6 col-12">
+          <div class="card">
+            <div class="card-content">
+              <div class="card-body paddingcustom" [routerLink]="organization && ['/dashboard']" [state]="{ id: organization?.id, isAnalyticsTab: true }">
+                <div class="media">
+                  <div class="media-body text-left">
+                    <h3 class="mb-1 warning">
+                      <i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
+                      <ng-container *ngIf="organization"><i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
+                        <ng-container *ngIf="organization">{{
+                          (organization.numbers_count ?? 0) | number
+                          }}</ng-container>
+                      </ng-container>
+                    </h3>
+                    <span>Plivo numbers</span>
+                  </div>
+                  <div class="media-right align-self-center">
+                    <i class="icon-screen-smartphone warning font-large-1 float-right"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,183 @@
+<!-- Basic Datatables -->
+
+<section id="ngx-datatable-basic">
+  <div class="row">
+    <div class="col-12">
+      <div class="card customisecard">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-6">
+              <h4 class="card-title mt-1">Channel</h4>
+            </div>
+            <div class="col-md-6" *ngIf="authService.isCRUDAdmin() || authService.isCreator()">
+              <a [routerLink]="['/channels/add-new']" class="btn btn-sm btn-primary pull-right">
+                <i class="fa fa-plus-circle"></i>
+                Add Channel</a>
+            </div>
+          </div>
+
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+
+            <fieldset class="form-group role_filter" [formGroup]="filterGroup">
+              <label class="mr-1">Search:</label>
+              <input class="form-control form-control-sm d-inline-block width-200 mr-1" type="text" placeholder="Search" (keyup)="filterUpdate($event)" />
+              <input class="form-control form-control-sm d-inline-block width-200 mr-1" type="text" ngxDaterangepickerMd [(ngModel)]="daterangefilter" [showCustomRangeLabel]="true" [alwaysShowCalendars]="true" [ngModelOptions]="{standalone: true}" [ranges]=" ranges" [linkedCalendars]="true" (ngModelChange)="getByDate($event)" [isInvalidDate]="isInvalidDate" [showClearButton]="true" placeholder="Start Date - End Date" />
+              <ng-select formControlName="status" class="d-inline-block width-200  form-control-sm  mr-1" placeholder="Select Status">
+                <ng-option value="1">Active</ng-option>
+                <ng-option value="2">InActive</ng-option>
+              </ng-select>
+              <button *ngIf="!authService.isRH()" class="btn btn-sm btn-info d-inline-block" (click)="toggleCustomizer()"><i class="fa fa-search" aria-hidden="true"></i> Advance
+                Search</button>
+            </fieldset>
+
+
+            <!-- ngx-datatable Basic -->
+            <ngx-datatable class="bootstrap core-bootstrap" [rows]="rows" rowHeight="auto" [messages]="my_messages" [columnMode]="ColumnMode.force" [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" [count]="count" [externalPaging]="true" [externalSorting]="true" [limit]="limit" [offset]="offset" (page)="setPage($event)" (sort)="onSort($event)">
+              <ngx-datatable-column class="datatable-row-left" [frozenLeft]="true" name="Name" prop="name" [width]="250">
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  <div class="d-flex align-items-center">
+                    <div [routerLink]="['/channels/view', row._id]" class="avatar avatar-admins mr-2 ml-0">
+                      <img height="60" width="60" alt="Fanzooma" class="rounded-circle" src="{{row.channel_icon}}">
+                    </div>
+
+                    <div class="cell-line-height">
+                      <p role="button" [routerLink]="['/channels/view', row._id]" class="font-medium-1 line-height-1 mb-0 text-capitalize">{{
+                        row.channel_title }}</p>
+                      <p class="text-muted font-small-2 margintopbotton">
+                        {{ row.createdAt }}</p>
+                      <a *ngIf="authService.isCRUDAdmin() || authService.isCreator() || authService.isRH()" (click)="changestatus(row._id,row.status)"><span class="badge badge-pill font-small" [ngClass]="{'bg-light-success': row.status == '1', 'bg-light-danger': row.status == '2' }">
+                          {{ row.status == 1 ? "Active" : "InActive" }}
+                        </span>
+                      </a>
+                      <span *ngIf="authService.isNonCRUDAdmin()" class="badge badge-pill font-small" [ngClass]="{'bg-light-success': row.status == '1', 'bg-light-danger': row.status == '2' }">
+                        {{ row.status == 1 ? "Active" : "InActive" }}
+                      </span>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+
+              <ngx-datatable-column name="Subscribers" prop="subscribers">
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  {{ row.subscribers | number }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Views" prop="views">
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  {{ row.views | number }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column *ngIf="authService.isEarningAdmin() || authService.isCreator() || authService.isRH()" name="Youtube Earning" prop="youtube_earning">
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  ${{ row.youtube_earning | number : '1.2-2' }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Fanzooma Royalty Share" prop="drm_royality_share">
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  ${{ row.drm_royality_share| number : '1.2-2' }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Youtube Videos" prop="youtube_videos">
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  <a [routerLink]="['/Fanzooma-youtube-videos/channel',row._id]">{{ row.youtube_videos |
+                    number
+                    }}</a>
+
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Date" prop="date">
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  {{ row.createdAt }}
+                </ng-template>
+              </ngx-datatable-column>
+              <!-- <ngx-datatable-column [sortable]="false" name="Actions">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <a [routerLink]="['view', row._id]"><i class="ft-eye text-info cursor-pointer"></i>
+                                    </a> | <a [routerLink]="['edit', row._id]"><i
+                                            class="ft-edit text-info cursor-pointer"></i>
+                                    </a> | <a (click)="delete(row._id)"><i
+                                            class="ft-trash text-danger cursor-pointer"></i> </a>
+                                </ng-template>
+                            </ngx-datatable-column> -->
+
+            </ngx-datatable>
+            <div class="spinner_loading" *ngIf="isLoadingtable$ | async">
+              <i class="fa fa-spinner fa-spin "></i> Loading...
+            </div>
+            <!--/ ngx-datatable Basic -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<div #customizer class="customizer d-none d-lg-none d-xl-block" [ngClass]="{open: isOpen}">
+  <a class="customizer-close" (click)="closeCustomizer()">
+    <i class="ft-x font-medium-3"></i></a><a class="customizer-toggle bg-primary" id="customizer-toggle-icon" (click)="toggleCustomizer()">
+    <i class="ft-search font-medium-1 white align-middle"></i>
+  </a>
+  <div class="customizer-content p-3 ps-container ps-theme-dark" data-ps-id="df6a5ce4-a175-9172-4402-dabd98fc9c0a">
+    <h4 class="text-uppercase">Advance Search</h4>
+    <p class="text-muted">Search in Real Time <span role="button" class="text-danger" (click)="filterForm('1');">Reset
+        Filter</span></p>
+    <!-- Layout Options Starts-->
+    <hr>
+    <div class="row" [formGroup]="filterGroup">
+
+
+      <div class="col-md-12" *ngIf="authService.isAdminCategory()">
+        <label class="font-small-3">Creator</label>
+        <div class="form-group role_filter">
+          <ng-select class="form-control-sm" placeholder="Select Creator" formControlName="creator">
+            <ng-option value="">Select Creator</ng-option>
+            <ng-option value="{{creator._id}}" *ngFor="let creator of creators">
+              {{creator.name}}
+            </ng-option>
+          </ng-select>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <label class="font-small-3">Rights Holder</label>
+        <div class="form-group role_filter">
+          <ng-select class="form-control-sm" placeholder="Select Rights Holder" formControlName="rights_holder">
+            <ng-option value="">Select Rights Holder</ng-option>
+            <ng-option value="{{rightholder._id}}" *ngFor="let rightholder of rightholders">
+              {{rightholder.name}}
+            </ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-md-12" *ngIf="authService.isAdminCategory()">
+        <label class="font-small-3">Contracts</label>
+        <div class="form-group role_filter">
+          <ng-select class="form-control-sm" placeholder="Select Contracts" formControlName="contract">
+            <ng-option value="">Select Contracts</ng-option>
+            <ng-option value="{{contract._id}}" *ngFor="let contract of contracts">
+              {{contract.contract_name}}
+            </ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-md-12" *ngIf="authService.isAdminCategory()">
+        <label class="font-small-3">Speaker</label>
+        <div class="form-group role_filter">
+          <ng-select class="form-control-sm" placeholder="Select Speaker" formControlName="artist">
+
+            <ng-option value="{{ artist._id }}" *ngFor="let artist of artists">
+              {{artist.name}}
+            </ng-option>
+          </ng-select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Theme customizer Ends-->

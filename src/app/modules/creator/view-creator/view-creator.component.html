@@ -1,0 +1,203 @@
+<div class="row match-height">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="media pt-0 pb-2">
+          <div class="mr-3 avatar" *ngIf="user">
+            <img class="br-10" [defaultImage]="defaultImage" [lazyLoad]="user.profile_picture" width="70" height="70">
+          </div>
+          <div class="media-body">
+            <h4 class="font-medium-1 mb-0"><i class="fa fa-spin fa-spinner" *ngIf="!user"></i>
+              <ng-container *ngIf="user">{{ user.name }}
+              </ng-container>
+            </h4>
+            <span class="text-muted d-block mb-0">
+              <ng-container *ngIf="user">{{ user.email }}
+              </ng-container>
+            </span>
+            <div class="clearfix"></div>
+
+            <ng-container *ngIf="user">
+              <span *ngIf="user.status == 1" class="badge bg-light-success mr-2">Active</span>
+              <span *ngIf="user.status == 2" class="badge bg-light-danger mr-2">InActive</span>
+            </ng-container>
+          </div>
+
+          <button type="button" onclick="history.back()" class="btn btn-sm btn-light mr-1 mt-2"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Back</button>
+          <ng-container *ngIf="user">
+            <button type="button" *ngIf="authservice.isCRUDAdmin()" [routerLink]="['/creators/edit',user._id]" class="btn btn-primary btn-sm mr-1 mt-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button>
+            <button type="button" *ngIf="authservice.isRH() || authservice.isCreator()" [routerLink]="['/update-profile']" class="btn btn-primary btn-sm mr-1 mt-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button>
+
+            <ng-container *ngIf="authservice.isCRUDAdmin()">
+              <button type="button" (click)="delete(user._id)" class="btn btn-sm btn-danger btn-sm mr-1 mt-2">
+                <i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+            </ng-container>
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row match-height">
+  <div class="col-xl-4 col-lg-4">
+    <!-- Info starts -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="card-title m-0">Detail</h4>
+            <span class="cursor-pointer"><i class="ft-more-vertical-"></i></span>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+              <ul class="list-unstyled mb-0">
+                <li class="d-flex align-items-center mb-2">
+                  <i class="fa fa-envelope mr-2 cursor-pointer "></i><small><i class="fa fa-spin fa-spinner" *ngIf="!user"></i>
+                    <ng-container *ngIf="user">{{ user.email }}
+                    </ng-container>
+                  </small>
+                </li>
+                <li class="d-flex align-items-center">
+                  <i class="fa fa-phone mr-2 cursor-pointer" *ngIf="user && user.phone"></i><small><i class="fa fa-spin fa-spinner" *ngIf="!user"></i>
+                    <ng-container *ngIf="user">{{ user.phone }}
+                    </ng-container>
+                  </small>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-xl-8 col-lg-12">
+    <div class="row">
+      <div class="col-xl-4 col-lg-6 col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body paddingcustom" [routerLink]="(user && authservice.isAdminCategory()) ? ['/channels/creator',user._id] : (user && authservice.isCreator()) ? ['/channels'] : []">
+              <div class="media">
+                <div class="media-body text-left">
+                  <h3 class="mb-1 success"><i class="fa fa-spin fa-spinner" *ngIf="!user"></i>
+                    <ng-container *ngIf="user">{{ user.channels | number }}
+                    </ng-container>
+                  </h3>
+                  <span>Channels</span>
+                </div>
+                <div class="media-right align-self-center">
+                  <i class="ft-tv success font-large-1 float-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-6 col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body paddingcustom" [routerLink]="(user && authservice.isAdminCategory()) ? ['/Fanzooma-youtube-videos/creator',user._id]  : (user && authservice.isCreator()) ? ['/Fanzooma-youtube-videos'] : []">
+              <div class="media">
+                <div class="media-body text-left">
+                  <h3 class="mb-1 warning"><i class="fa fa-spin fa-spinner" *ngIf="!user"></i>
+                    <ng-container *ngIf="user">{{user.youtube_videos | number }}
+                    </ng-container>
+                  </h3>
+                  <span>YouTube Videos</span>
+                </div>
+                <div class="media-right align-self-center">
+                  <i class="ft-video warning font-large-1 float-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-4 col-lg-6 col-12" *ngIf="authservice.isEarningAdmin() || authservice.isCreator() || authservice.isRH()">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body paddingcustom" [routerLink]="user ? ['/royalties/by-videos/creator',user._id] : []">
+              <div class="media">
+                <div class="media-body text-left">
+                  <h3 class="mb-1 warning"><i class="fa fa-spin fa-spinner" *ngIf="!user"></i>
+                    <ng-container *ngIf="user">${{ user.youtube_earning | number : '1.2-2' }}
+                    </ng-container>
+                  </h3>
+                  <span>Fanzooma Youtube Earnings</span>
+                </div>
+                <div class="media-right align-self-center">
+                  <i class="ft-dollar-sign warning font-large-1 float-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-6 col-12" *ngIf="authservice.isEarningAdmin() || authservice.isCreator() || authservice.isRH()">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body paddingcustom" [routerLink]="user ? ['/royalties-earnings/creator',user._id] : []">
+              <div class="media">
+                <div class="media-body text-left">
+                  <h3 class="mb-1 success"><i class="fa fa-spin fa-spinner" *ngIf="!user"></i>
+                    <ng-container *ngIf="user">${{ user.drm_royality_share | number:'1.2-2' }}
+                    </ng-container>
+                  </h3>
+                  <span>Fanzooma Royalty Sharing</span>
+                </div>
+                <div class="media-right align-self-center">
+                  <i class="ft-dollar-sign success font-large-1 float-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-6 col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body paddingcustom" [routerLink]="(user && authservice.isAdminCategory()) ? ['/contracts/creator',user._id] : (user && authservice.isCreator()) ? ['/contracts'] : []">
+              <div class="media">
+                <div class="media-body text-left">
+                  <h3 class="mb-1 danger"><i class="fa fa-spin fa-spinner" *ngIf="!user"></i>
+                    <ng-container *ngIf="user">{{user.contracts | number }}
+                    </ng-container>
+                  </h3>
+                  <span>Creator Agreements</span>
+                </div>
+                <div class="media-right align-self-center">
+                  <i class="ft-file danger font-large-1 float-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-6 col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body paddingcustom" [routerLink]="(user && authservice.isAdminCategory()) ? ['/content-library/creator',user._id]  : (user && authservice.isCreator()) ? ['/content-library'] : []">
+              <div class="media">
+                <div class="media-body text-left">
+                  <h3 class="mb-1 danger"><i class="fa fa-spin fa-spinner" *ngIf="!user"></i>
+                    <ng-container *ngIf="user">{{user.clips | number }}
+                    </ng-container>
+                  </h3>
+                  <span>Audios Available</span>
+                </div>
+                <div class="media-right align-self-center">
+                  <i class="ft-music danger font-large-1 float-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

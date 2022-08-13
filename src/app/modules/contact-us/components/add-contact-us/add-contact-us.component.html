@@ -1,0 +1,102 @@
+<!-- Basic Inputs start -->
+<form [formGroup]="contactUsForm">
+  <section id="basic-input">
+    <div class="row">
+      <div class="col-12">
+        <div class="card customisecard">
+          <div class="card-header">
+            <h4 class="card-title mt-1">Add Contact Us</h4>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <ul
+                    class="errorsclass"
+                    *ngIf="validationErrorFromServer.length > 0"
+                  >
+                    <li *ngFor="let error of validationErrorFromServer">
+                      {{ error }}
+                    </li>
+                  </ul>
+
+                  <fieldset class="form-group">
+                    <label for="subject-input"
+                      >Subject <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      id="subject-input"
+                      [ngClass]="{
+                        'is-valid': contactUsForm.get('subject').valid
+                      }"
+                      placeholder="Enter Subject"
+                      formControlName="subject"
+                    />
+
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        isSubmitted &&
+                        contactUsForm.get('subject').errors &&
+                        contactUsForm.get('subject').hasError('required')
+                      "
+                    >
+                      <span class="errormessage">Subject is required</span>
+                    </div>
+                  </fieldset>
+
+                  <fieldset class="form-group">
+                    <label for="message-input"
+                      >Message <span class="text-danger">*</span></label
+                    >
+                    <textarea
+                      class="form-control form-control-sm"
+                      id="message-input"
+                      [ngClass]="{
+                        'is-valid': contactUsForm.get('message').valid
+                      }"
+                      placeholder="Enter Message"
+                      formControlName="message"
+                      cols="30"
+                      rows="10"
+                    ></textarea>
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        isSubmitted &&
+                        contactUsForm.get('message').errors &&
+                        contactUsForm.get('message').hasError('required')
+                      "
+                    >
+                      <span class="errormessage">Message is required</span>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button
+                type="submit"
+                class="btn btn-sm btn-primary mr-2"
+                [disabled]="isSubmitButtonDisabled"
+                (click)="submitForm()"
+              >
+                <i class="ft-check-square mr-1"></i>Save
+                <i class="fa fa-spinner fa-spin" *ngIf="isLoading$ | async"></i>
+              </button>
+              <a
+                type="button"
+                [routerLink]="['/contact-us']"
+                class="btn btn-sm btn-secondary"
+                ><i class="ft-x mr-1"></i>Cancel</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</form>
+<!-- Basic Inputs end -->

@@ -1,0 +1,3 @@
+<app-dashboard *ngIf="authService.isAdminCategory()"></app-dashboard>
+<app-dashboard-creator-listing *ngIf="authService.isCreator()"></app-dashboard-creator-listing>
+<app-dashboard-right-holder-listing *ngIf="authService.isRH()"></app-dashboard-right-holder-listing>

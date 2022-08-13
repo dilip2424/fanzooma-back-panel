@@ -1,0 +1,260 @@
+<div class="row match-height">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="media pt-0 pb-2">
+          <div class="mr-3 avatar rounded" *ngIf="channel">
+            <img class="br-10" [src]="channel.channel_icon" width="70" height="70" />
+          </div>
+          <div class="media-body">
+            <h4 class="font-medium-1 mb-1">
+              <i class="fa fa-spin fa-spinner" *ngIf="!channel"></i>
+              <ng-container *ngIf="channel">{{ channel.channel_title }}
+              </ng-container>
+            </h4>
+            <span class="text-muted d-block mb-1">
+              <ng-container *ngIf="channel">{{ channel.channel_start_date | date: "dd MMMM YYYY" }}
+              </ng-container>
+            </span>
+            <div class="clearfix"></div>
+            <ng-container *ngIf="channel">
+              <span *ngIf="channel.status == 1" class="badge bg-light-success mr-2">Active</span>
+              <span *ngIf="channel.status == 2" class="badge bg-light-danger mr-2">InActive</span>
+            </ng-container>
+          </div>
+          <button *ngIf="role != 'right_holder' && !channel.access_token" type="button" (click)="getcode()" class="btn btn-primary btn-sm mr-1 mt-2">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Allow
+            Access
+          </button>
+          <button type="button" [routerLink]="['/channels']" class="btn btn-light btn-sm mr-1 mt-2">
+            <i class="fa fa-angle-double-left" aria-hidden="true"></i> Back
+          </button>
+          <ng-container *ngIf="channel">
+            <button *ngIf="role != 'right_holder'" type="button" [routerLink]="['/channels/edit', id]" class="btn btn-primary btn-sm mr-1 mt-2">
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+            </button>
+            <button *ngIf="role != 'right_holder'" type="button" (click)="delete(channel._id)" class="btn btn-sm btn-danger btn-sm mr-1 mt-2">
+              <i class="fa fa-spin fa-spinner" *ngIf="isLoadingDelete | async"></i>
+              <i class="fa fa-trash" *ngIf="!(isLoadingDelete | async)" aria-hidden="true"></i>
+              Delete
+            </button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row match-height">
+  <div class="col-xl-6 col-lg-6">
+    <!-- Info starts -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="card-title m-0">Detail</h4>
+            <span class="cursor-pointer"><i class="ft-more-vertical-"></i></span>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+              <ul class="list-unstyled mb-0">
+                <li class="d-flex align-items-center mb-2">
+                  <small>Channel YouTube ID :
+                    <i class="fa fa-spin fa-spinner" *ngIf="!channel"></i>
+                    <ng-container *ngIf="channel">{{ channel.channel_id }}
+                    </ng-container>
+                  </small>
+                </li>
+                <li class="d-flex align-items-center mb-2">
+                  <small>Owner :
+                    <i class="fa fa-spin fa-spinner" *ngIf="!channel"></i>
+                    <ng-container *ngIf="channel">{{
+                      channel.creatorData.name ? channel.creatorData.name : ""
+                      }}
+                    </ng-container>
+                  </small>
+                </li>
+                <li class="d-flex align-items-center mb-2">
+                  <small>Date :
+                    <i class="fa fa-spin fa-spinner" *ngIf="!channel"></i>
+                    <ng-container *ngIf="channel">{{
+                      channel.channel_start_date | date: "dd MMMM YYYY"
+                      }}</ng-container>
+                  </small>
+                </li>
+                <li class="d-flex align-items-center mb-2">
+                  <small>Revenue Start Date :
+                    <i class="fa fa-spin fa-spinner" *ngIf="!channel"></i>
+                    <ng-container *ngIf="channel">{{
+                      channel.revenue_start_date | date: "dd MMMM YYYY"
+                      }}</ng-container>
+                  </small>
+                </li>
+                <li class="d-flex align-items-center mb-2">
+                  <small>Earning reduction :
+                    <i class="fa fa-spin fa-spinner" *ngIf="!channel"></i>
+                    <ng-container *ngIf="channel">{{
+                      channel.earning_reduction
+                      }}</ng-container>
+                  </small>
+                </li>
+                <li class="d-flex align-items-center mb-2">
+                  <small>Contract Start Date :
+                    <i class="fa fa-spin fa-spinner" *ngIf="!channel"></i>
+                    <ng-container *ngIf="channel">{{
+                      channel.contract_start_date | date: "dd MMMM YYYY"
+                      }}</ng-container>
+                  </small>
+                </li>
+                <li class="d-flex align-items-center mb-2">
+                  <small>Contract End Date :
+                    <i class="fa fa-spin fa-spinner" *ngIf="!channel"></i>
+                    <ng-container *ngIf="channel">{{
+                      channel.contract_end_date | date: "dd MMMM YYYY"
+                      }}</ng-container>
+                  </small>
+                </li>
+                <li class="d-flex align-items-center mb-2">
+                  <small>Description :
+                    <i class="fa fa-spin fa-spinner" *ngIf="!channel"></i>
+                    <ng-container *ngIf="channel">{{
+                      channel.channel_description
+                      }}</ng-container>
+                  </small>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body d-flex justify-content-between">
+                            <div class="followers-posts text-center">
+                                <h4 class="m-0">400</h4>
+                                <small class="text-muted">Posts</small>
+                            </div>
+                            <div class="followers text-center">
+                                <h4 class="m-0">194k</h4>
+                                <small class="text-muted">Followers</small>
+                            </div>
+                            <div class="followers-following text-center">
+                                <h4 class="m-0">248</h4>
+                                <small class="text-muted">Following</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    <!-- Info ends -->
+  </div>
+  <div class="col-xl-6 col-lg-6">
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body paddingcustom" [routerLink]="
+                channel && ['/Fanzooma-youtube-videos/channel', channel._id]
+              ">
+              <div class="media">
+                <div class="media-body text-left">
+                  <h3 class="mb-1 success">
+                    <i class="fa fa-spin fa-spinner" *ngIf="!channel"></i>
+                    <ng-container *ngIf="channel">{{
+                      channel.youtube_videos | number
+                      }}</ng-container>
+                  </h3>
+                  <span class="white-space-no-wrap">Youtube videos</span>
+                </div>
+                <div class="media-right align-self-center">
+                  <i class="icon-social-youtube success font-large-1 float-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body paddingcustom" [routerLink]="channel && ['/dashboard']" [state]="{ id: channel?._id, isAnalyticsTab: true }">
+              <div class="media">
+                <div class="media-body text-left">
+                  <h3 class="mb-1 danger">
+                    <i class="fa fa-spin fa-spinner" *ngIf="!channel"></i>
+                    <ng-container *ngIf="channel">{{
+                      channel.views | number
+                      }}</ng-container>
+                  </h3>
+                  <span>Views</span>
+                </div>
+                <div class="media-right align-self-center">
+                  <i class="ft-eye danger font-large-1 float-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-6 col-lg-6 col-12" *ngIf="
+          authService.isEarningAdmin() ||
+          authService.isCreator() ||
+          authService.isRH()
+        ">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body paddingcustom" [routerLink]="channel && ['/dashboard']" [state]="{ id: channel?._id, isAnalyticsTab: true }">
+              <div class="media">
+                <div class="media-body text-left">
+                  <h3 class="mb-1 warning">
+                    <i class="fa fa-spin fa-spinner" *ngIf="!channel"></i>
+                    <ng-container *ngIf="channel">${{
+                      channel.youtube_earning | number: "1.2-2"
+                      }}</ng-container>
+                  </h3>
+                  <span>Fanzooma YouTube Earnings</span>
+                </div>
+                <div class="media-right align-self-center">
+                  <i class="ft-dollar-sign warning font-large-1 float-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-12" *ngIf="
+          authService.isEarningAdmin() ||
+          authService.isCreator() ||
+          authService.isRH()
+        ">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body paddingcustom" [routerLink]="channel && ['/dashboard']" [state]="{ id: channel?._id, isAnalyticsTab: true }">
+              <div class="media">
+                <div class="media-body text-left">
+                  <h3 class="mb-1 warning">
+                    <i class="fa fa-spin fa-spinner" *ngIf="!channel"></i>
+                    <ng-container *ngIf="channel"><i class="fa fa-spin fa-spinner" *ngIf="!channel"></i>
+                      <ng-container *ngIf="channel">${{
+                        channel.drm_royality_share | number: "1.2-2"
+                        }}</ng-container>
+                    </ng-container>
+                  </h3>
+                  <span>Fanzooma Royalty Sharing</span>
+                </div>
+                <div class="media-right align-self-center">
+                  <i class="ft-dollar-sign warning font-large-1 float-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

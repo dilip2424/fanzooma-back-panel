@@ -1,0 +1,135 @@
+<!-- Basic Inputs start -->
+<form [formGroup]="intialform" (ngSubmit)="save()" class="addform">
+    <section id="basic-input">
+        <div class="row">
+            <div class="col-12">
+                <div class="card customisecard">
+                    <div class="card-header">
+                        <h4 class="card-title mt-1" *ngIf="isAddMode">Add Creator</h4>
+                        <h4 class="card-title mt-1" *ngIf="!isAddMode">Edit Creator</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <ul class="errorsclass" *ngIf="finalerror.length > 0">
+                                <li *ngFor='let error of finalerror;'> {{ error }} </li>
+                            </ul>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <fieldset class="form-group">
+                                        <label for="nameinput">Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-sm" id="nameinput" [ngClass]="{'is-valid' : intialform.get('name').valid }" placeholder="Enter Email" placeholder="Enter Name" formControlName="name">
+
+
+                                        <div class="text-danger" *ngIf="submitted && intialform.get('name').errors && 
+                                        intialform.get('name').hasError('required')">
+                                            <span class="errormessage">Name is required</span>
+                                        </div>
+                                        <div class="text-danger" *ngIf="submitted && intialform.get('name').errors && 
+                                        intialform.get('name').hasError('minlength')">
+                                            <span class="errormessage">Name should be more than 3 character</span>
+                                        </div>
+                                        <div class="text-danger" *ngIf="submitted && intialform.get('name').errors && 
+                                        intialform.get('name').hasError('maxlength')">
+                                            <span class="errormessage">Name shouldn't be more than 50 character.</span>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-4">
+                                    <fieldset class="form-group">
+                                        <label for="emailinput">Email <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-sm" id="emailinput" [ngClass]="{'is-valid' : intialform.get('email').valid }" placeholder="Enter Email" formControlName="email">
+
+                                        <div class="text-danger" *ngIf="submitted && intialform.get('email').errors && 
+                                        intialform.get('email').hasError('required')">
+                                            <span class="errormessage">Email is required</span>
+                                        </div>
+                                        <div class="text-danger" *ngIf="submitted && intialform.get('email').errors && 
+                                        intialform.get('email').hasError('email')">
+                                            <span class="errormessage">Invalid Email.</span>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-4">
+                                    <fieldset class="form-group">
+                                        <label for="basicInput">Phone (Optional) </label>
+                                        <input type="text" class="form-control form-control-sm" id="basicInput" placeholder="Enter Phone" formControlName="phone">
+                                    </fieldset>
+                                </div>
+                                <input type="hidden" name="password" value="" autocomplete="new-password" />
+                                <div class="col-md-4">
+                                    <fieldset class="form-group">
+                                        <label for="basicInput">Password <span class="text-danger">*</span> </label>
+                                        <input type="password" autocomplete="new-password" formControlName="password" class="form-control form-control-sm" id="basicInput" placeholder="Password">
+                                        <div class="text-danger" *ngIf="submitted && intialform.get('password').errors && 
+                                            intialform.get('password').hasError('required')">
+                                            <span class="errormessage">Password is required</span>
+                                        </div>
+                                        <div class="text-danger" *ngIf="submitted && intialform.get('password').errors && 
+                                            intialform.get('password').hasError('minlength')">
+                                            <span class="errormessage">password should be minimum 6 characters.</span>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-4">
+                                    <fieldset class="form-group">
+                                        <label for="basicInput">Confirm Password <span class="text-danger">*</span></label>
+                                        <input type="password" class="form-control form-control-sm" formControlName="confirm_password" id="basicInput" placeholder="Enter Confirm Password">
+                                        <div class="text-danger" *ngIf="submitted && intialform.hasError('notSame')">
+                                            <span class="errormessage">Passwords do not match.</span>
+                                        </div>
+                                        <div class="text-danger" *ngIf="submitted && intialform.get('confirm_password').errors && 
+                                        intialform.get('confirm_password').hasError('required')">
+                                            <span class="errormessage">Confirm Password is required</span>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <label for="basicInput">Status</label>
+                                    <ul class="list-unstyled mb-0">
+                                        <li class="d-inline-block mr-2">
+                                            <div class="radio">
+                                                <input type="radio" formControlName="status" value="1" id="radio1" checked>
+                                                <label for="radio1">Active</label>
+                                            </div>
+                                        </li>
+                                        <li class="d-inline-block mr-2">
+                                            <div class="radio">
+                                                <input type="radio" formControlName="status" value="2" id="radio2">
+                                                <label for="radio2">Inactive</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <fieldset class="form-group col-md-10">
+                                            <label for="inputGroupFile01">Profile Pic (Optional)</label>
+                                            <div class="custom-file">
+                                                <input type="file" accept="image/*" (change)="addImage($event)" formControlName="file_upload" class="form-control custom-file-input" id="inputGroupFile01">
+                                                <label class="custom-file-label" for="inputGroupFile01">{{image?image:'Choose file'}}</label>
+                                            </div>
+                                        </fieldset>
+                                        <div class="prifile_pic col-md-2 pl-0">
+                                            <img [src]="picturepicObj || 'assets/img/default.jpg'" class="fit-cover" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-sm btn-primary mr-2" [disabled]="isdisabled"><i class="ft-check-square mr-1"></i>
+                            <ng-container *ngIf="isAddMode">Save </ng-container>
+                            <ng-container *ngIf="!isAddMode">Update </ng-container> <i class="fa fa-spinner fa-spin " *ngIf="isLoading$ | async"></i>
+                        </button>
+                        <a type="button" [routerLink]="['/creators']" class="btn btn-sm btn-secondary"><i class="ft-x mr-1"></i>Cancel</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+<!-- Basic Inputs end -->

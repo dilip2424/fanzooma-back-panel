@@ -1,0 +1,746 @@
+<section class="users-edit dashboard">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <!-- Nav-tabs -->
+            <ul
+              ngbNav
+              #nav="ngbNav"
+              [activeId]="activeTab"
+              class="nav-tabs dashboard-tabs justify-content-left"
+            >
+              <li [ngbNavItem]="1">
+                <a
+                  (click)="changetab('account')"
+                  ngbNavLink
+                  class="nav-link d-flex align-items-center"
+                >
+                  <span class="d-none d-sm-block">Accounts</span>
+                </a>
+                <ng-template ngbNavContent>
+                  <!-- Minimal statistics section start -->
+                  <section id="minimal-statistics">
+                    <fieldset class="form-group role_filter mt-2">
+                      <input
+                        class="form-control form-control-sm d-inline-block width-200 mr-1"
+                        type="text"
+                        #dateInput
+                        name="dateInput"
+                        ngxDaterangepickerMd
+                        [(ngModel)]="daterangefilter"
+                        [showCustomRangeLabel]="true"
+                        [alwaysShowCalendars]="true"
+                        [ngModelOptions]="{ standalone: true }"
+                        [ranges]="ranges"
+                        [linkedCalendars]="true"
+                        (change)="getByDate($event)"
+                        [isInvalidDate]="isInvalidDate"
+                        [showClearButton]="true"
+                        placeholder="Start Date - End Date"
+                      />
+
+                      <i
+                        *ngIf="isLoadingtable$ | async"
+                        class="fa fa-spin fa-spinner"
+                      ></i>
+                    </fieldset>
+                    <div class="row">
+                      <div
+                        role="button"
+                        class="col-xl-3 col-lg-6 col-12"
+                        (click)="changecard('channel')"
+                      >
+                        <div class="card">
+                          <div
+                            class="card-content"
+                            [class.card-active]="
+                              filter_chart_data_var == 'channel'
+                            "
+                          >
+                            <div class="card-body box-shadow-block">
+                              <div class="media">
+                                <div class="media-body text-left">
+                                  <h3 class="mb-1 danger">
+                                    <i
+                                      class="fa fa-spin fa-spinner"
+                                      *ngIf="!accountdata"
+                                    ></i>
+                                    <ng-container *ngIf="accountdata"
+                                      >{{ accountdata.channels }}
+                                    </ng-container>
+                                  </h3>
+                                  <span>Channels</span>
+                                </div>
+                                <div class="media-right align-self-center">
+                                  <i
+                                    class="ft-briefcase danger font-large-2 float-right"
+                                  ></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        role="button"
+                        class="col-xl-3 col-lg-6 col-12"
+                        (click)="changecard('creators')"
+                      >
+                        <div class="card">
+                          <div
+                            class="card-content"
+                            [class.card-active]="
+                              filter_chart_data_var == 'creators'
+                            "
+                          >
+                            <div class="card-body box-shadow-block">
+                              <div class="media">
+                                <div class="media-body text-left">
+                                  <h3 class="mb-1 success">
+                                    <i
+                                      class="fa fa-spin fa-spinner"
+                                      *ngIf="!accountdata"
+                                    ></i>
+                                    <ng-container *ngIf="accountdata"
+                                      >{{ accountdata.creators }}
+                                    </ng-container>
+                                  </h3>
+                                  <span>Creators</span>
+                                </div>
+                                <div class="media-right align-self-center">
+                                  <i
+                                    class="ft-user success font-large-2 float-right"
+                                  ></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        role="button"
+                        class="col-xl-3 col-lg-6 col-12"
+                        (click)="changecard('rights_holder')"
+                      >
+                        <div class="card">
+                          <div
+                            class="card-content"
+                            [class.card-active]="
+                              filter_chart_data_var == 'rights_holder'
+                            "
+                          >
+                            <div class="card-body box-shadow-block">
+                              <div class="media">
+                                <div class="media-body text-left">
+                                  <h3 class="mb-1 warning">
+                                    <i
+                                      class="fa fa-spin fa-spinner"
+                                      *ngIf="!accountdata"
+                                    ></i>
+                                    <ng-container *ngIf="accountdata"
+                                      >{{ accountdata.rights_holders }}
+                                    </ng-container>
+                                  </h3>
+                                  <span>Rights Holders</span>
+                                </div>
+                                <div class="media-right align-self-center">
+                                  <i
+                                    class="ft-pie-chart warning font-large-2 float-right"
+                                  ></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        role="button"
+                        class="col-xl-3 col-lg-6 col-12"
+                        (click)="changecard('artist')"
+                      >
+                        <div class="card">
+                          <div
+                            class="card-content"
+                            [class.card-active]="
+                              filter_chart_data_var == 'artist'
+                            "
+                          >
+                            <div class="card-body box-shadow-block">
+                              <div class="media">
+                                <div class="media-body text-left">
+                                  <h3 class="mb-1 info">
+                                    <i
+                                      class="fa fa-spin fa-spinner"
+                                      *ngIf="!accountdata"
+                                    ></i>
+                                    <ng-container *ngIf="accountdata"
+                                      >{{ accountdata.artists }}
+                                    </ng-container>
+                                  </h3>
+                                  <span>Speakers</span>
+                                </div>
+                                <div class="media-right align-self-center">
+                                  <i
+                                    class="ft-life-buoy info font-large-2 float-right"
+                                  ></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <!-- // Minimal statistics section end -->
+                  <div class="row text-left">
+                    <div class="col-sm-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <h4 class="card-title">
+                            <span *ngIf="filter_chart_data_var == 'channel'"
+                              >Channels</span
+                            >
+                            <span *ngIf="filter_chart_data_var == 'creators'"
+                              >Creators</span
+                            >
+                            <span
+                              *ngIf="filter_chart_data_var == 'rights_holder'"
+                              >Rights Holder</span
+                            >
+                            <span *ngIf="filter_chart_data_var == 'artist'"
+                              >Speakers</span
+                            >
+                            <ng-container
+                              *ngIf="filters.startDate && filters.endDate"
+                            >
+                              - ({{ filters.startDate }} To
+                              {{ filters.endDate }})</ng-container
+                            >
+                          </h4>
+                        </div>
+                        <div class="card-content">
+                          <div class="card-body">
+                            <div class="height-400">
+                              <canvas
+                                height="400"
+                                baseChart
+                                class="chart"
+                                [datasets]="lineChartDataForRoyalties"
+                                [labels]="lineChartLabelsForRoyalties"
+                                [options]="lineChartOptionsForRoyalties"
+                                [colors]="lineChartColorsForRoyalties"
+                                [legend]="lineChartLegend"
+                                [chartType]="lineChartType"
+                              ></canvas>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Line Chart Ends -->
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="2">
+                <a
+                  (click)="changetab('content')"
+                  ngbNavLink
+                  class="nav-link d-flex align-items-center"
+                >
+                  <span class="d-none d-sm-block">Content</span>
+                </a>
+                <ng-template ngbNavContent>
+                  <!-- Minimal statistics section start -->
+                  <section id="minimal-statistics">
+                    <fieldset
+                      class="form-group role_filter mt-2"
+                      [formGroup]="filterGroup"
+                    >
+                      <input
+                        class="form-control form-control-sm d-inline-block width-200 mr-1"
+                        type="text"
+                        ngxDaterangepickerMd
+                        [(ngModel)]="daterangefilter"
+                        [showCustomRangeLabel]="true"
+                        [alwaysShowCalendars]="true"
+                        [ngModelOptions]="{ standalone: true }"
+                        [ranges]="ranges"
+                        [linkedCalendars]="true"
+                        (change)="getByDate($event)"
+                        [isInvalidDate]="isInvalidDate"
+                        [showClearButton]="true"
+                        placeholder="Start Date - End Date"
+                      />
+                      <i
+                        *ngIf="isLoadingtable$ | async"
+                        class="fa fa-spin fa-spinner"
+                      ></i>
+                    </fieldset>
+                    <div class="row">
+                      <div
+                        role="button"
+                        class="col-xl-3 col-lg-6 col-12"
+                        (click)="
+                          changecard('youtube_video'); getGraphdataContent()
+                        "
+                      >
+                        <div class="card">
+                          <div
+                            class="card-content"
+                            [class.card-active]="
+                              filter_chart_data_var == 'youtube_video'
+                            "
+                          >
+                            <div class="card-body box-shadow-block">
+                              <div class="media">
+                                <div class="media-body text-left">
+                                  <h3 class="mb-1 danger">
+                                    <i
+                                      class="fa fa-spin fa-spinner"
+                                      *ngIf="!contentdata"
+                                    ></i>
+                                    <ng-container *ngIf="contentdata"
+                                      >{{ contentdata.youtube_video }}
+                                    </ng-container>
+                                  </h3>
+                                  <span>YouTube Videos</span>
+                                </div>
+                                <div class="media-right align-self-center">
+                                  <i
+                                    class="ft-video danger font-large-2 float-right"
+                                  ></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        role="button"
+                        class="col-xl-3 col-lg-6 col-12"
+                        (click)="changecard('clips')"
+                      >
+                        <div class="card">
+                          <div
+                            class="card-content"
+                            [class.card-active]="
+                              filter_chart_data_var == 'clips'
+                            "
+                          >
+                            <div class="card-body box-shadow-block">
+                              <div class="media">
+                                <div class="media-body text-left">
+                                  <h3 class="mb-1 success">
+                                    <i
+                                      class="fa fa-spin fa-spinner"
+                                      *ngIf="!contentdata"
+                                    ></i>
+                                    <ng-container *ngIf="contentdata"
+                                      >{{ contentdata.clips }}
+                                    </ng-container>
+                                  </h3>
+                                  <span>Audios Available</span>
+                                </div>
+                                <div class="media-right align-self-center">
+                                  <i
+                                    class="ft-music success font-large-2 float-right"
+                                  ></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        role="button"
+                        class="col-xl-3 col-lg-6 col-12"
+                        (click)="changecard('contract')"
+                      >
+                        <div class="card">
+                          <div
+                            class="card-content"
+                            [class.card-active]="
+                              filter_chart_data_var == 'contract'
+                            "
+                          >
+                            <div class="card-body box-shadow-block">
+                              <div class="media">
+                                <div class="media-body text-left">
+                                  <h3 class="mb-1 warning">
+                                    <i
+                                      class="fa fa-spin fa-spinner"
+                                      *ngIf="!contentdata"
+                                    ></i>
+                                    <ng-container *ngIf="contentdata"
+                                      >{{ contentdata.contract }}
+                                    </ng-container>
+                                  </h3>
+                                  <span>Creator Agreements</span>
+                                </div>
+                                <div class="media-right align-self-center">
+                                  <i
+                                    class="ft-file-text warning font-large-2 float-right"
+                                  ></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        role="button"
+                        class="col-xl-3 col-lg-6 col-12"
+                        (click)="changecard('contract_assigned')"
+                      >
+                        <div class="card">
+                          <div
+                            class="card-content"
+                            [class.card-active]="
+                              filter_chart_data_var == 'contract_assigned'
+                            "
+                          >
+                            <div class="card-body box-shadow-block">
+                              <div class="media">
+                                <div class="media-body text-left">
+                                  <h3 class="mb-1 info">
+                                    <i
+                                      class="fa fa-spin fa-spinner"
+                                      *ngIf="!contentdata"
+                                    ></i>
+                                    <ng-container *ngIf="contentdata"
+                                      >{{ contentdata.contract_assigned }}
+                                    </ng-container>
+                                  </h3>
+                                  <span>Contracts Assigned</span>
+                                </div>
+                                <div class="media-right align-self-center">
+                                  <i
+                                    class="ft-mic info font-large-2 float-right"
+                                  ></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <!-- // Minimal statistics section end -->
+                  <div class="row text-left">
+                    <div class="col-sm-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <h4 class="card-title">
+                            <span
+                              *ngIf="filter_chart_data_var == 'youtube_video'"
+                              >Youtube Video</span
+                            >
+                            <span *ngIf="filter_chart_data_var == 'clips'"
+                              >Audio Available</span
+                            >
+                            <span *ngIf="filter_chart_data_var == 'contract'"
+                              >Contract Agreements</span
+                            >
+                            <span
+                              *ngIf="
+                                filter_chart_data_var == 'contract_assigned'
+                              "
+                              >Contract Assigned</span
+                            >
+                            <ng-container
+                              *ngIf="filters.startDate && filters.endDate"
+                            >
+                              - ({{ filters.startDate }} To
+                              {{ filters.endDate }})</ng-container
+                            >
+                          </h4>
+                        </div>
+                        <div class="card-content">
+                          <div class="card-body">
+                            <div class="height-400">
+                              <canvas
+                                height="400"
+                                baseChart
+                                class="chart"
+                                [datasets]="lineChartDataForContent"
+                                [labels]="lineChartLabelsForContent"
+                                [options]="lineChartOptionsForRoyalties"
+                                [colors]="lineChartColorsForContent"
+                                [legend]="lineChartLegend"
+                                [chartType]="lineChartType"
+                              ></canvas>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Line Chart Ends -->
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="3" *ngIf="authService.isEarningAdmin()">
+                <a
+                  (click)="changetab('revenue')"
+                  ngbNavLink
+                  class="nav-link d-flex align-items-center"
+                >
+                  <span class="d-none d-sm-block">Revenue</span>
+                </a>
+                <ng-template ngbNavContent>
+                  <!-- Minimal statistics section start -->
+                  <section id="minimal-statistics">
+                    <fieldset
+                      class="form-group role_filter mt-2"
+                      [formGroup]="filterGroup"
+                    >
+                      <input
+                        class="form-control form-control-sm d-inline-block width-200 mr-1"
+                        type="text"
+                        ngxDaterangepickerMd
+                        [(ngModel)]="daterangefilter"
+                        [showCustomRangeLabel]="true"
+                        [alwaysShowCalendars]="true"
+                        [ngModelOptions]="{ standalone: true }"
+                        [ranges]="ranges"
+                        [linkedCalendars]="true"
+                        (change)="getByDate($event)"
+                        [isInvalidDate]="isInvalidDate"
+                        [showClearButton]="true"
+                        placeholder="Start Date - End Date"
+                      />
+
+                      <i
+                        *ngIf="isLoadingtable$ | async"
+                        class="fa fa-spin fa-spinner"
+                      ></i>
+                    </fieldset>
+                    <div class="row">
+                      <div role="button" class="col-xl-4 col-lg-6 col-12">
+                        <div class="card">
+                          <div class="card-content">
+                            <div class="card-body box-shadow-block">
+                              <div class="media">
+                                <div class="media-body text-left">
+                                  <h3 class="mb-1 danger">
+                                    <i
+                                      class="fa fa-spin fa-spinner"
+                                      *ngIf="!revenuedata"
+                                    ></i>
+                                    <ng-container *ngIf="revenuedata">
+                                      ${{
+                                        revenuedata.rights_holder_earning
+                                          | number: "1.0-2"
+                                      }}
+                                    </ng-container>
+                                  </h3>
+                                  <span>Rights Holder Revenue</span>
+                                </div>
+                                <div class="media-right align-self-center">
+                                  <i
+                                    class="ft-dollar-sign danger font-large-2 float-right"
+                                  ></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div role="button" class="col-xl-4 col-lg-6 col-12">
+                        <div class="card">
+                          <div class="card-content">
+                            <div class="card-body box-shadow-block">
+                              <div class="media">
+                                <div class="media-body text-left">
+                                  <h3 class="mb-1 success">
+                                    <i
+                                      class="fa fa-spin fa-spinner"
+                                      *ngIf="!revenuedata"
+                                    ></i>
+                                    <ng-container *ngIf="revenuedata">
+                                      ${{
+                                        revenuedata.creator_earning
+                                          | number: "1.0-2"
+                                      }}
+                                    </ng-container>
+                                  </h3>
+                                  <span>Creator Revenue</span>
+                                </div>
+                                <div class="media-right align-self-center">
+                                  <i
+                                    class="ft-dollar-sign success font-large-2 float-right"
+                                  ></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div role="button" class="col-xl-4 col-lg-6 col-12">
+                        <div class="card">
+                          <div class="card-content">
+                            <div class="card-body box-shadow-block">
+                              <div class="media">
+                                <div class="media-body text-left">
+                                  <h3 class="mb-1 warning">
+                                    <i
+                                      class="fa fa-spin fa-spinner"
+                                      *ngIf="!revenuedata"
+                                    ></i>
+                                    <ng-container *ngIf="revenuedata">
+                                      ${{
+                                        revenuedata.mindset_earning
+                                          | number: "1.0-2"
+                                      }}
+                                    </ng-container>
+                                  </h3>
+                                  <span>Mindset Revenue</span>
+                                </div>
+                                <div class="media-right align-self-center">
+                                  <i
+                                    class="ft-dollar-sign warning font-large-2 float-right"
+                                  ></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <!-- // Minimal statistics section end -->
+                  <div class="row text-left">
+                    <div class="col-sm-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <h4 class="card-title">
+                            <ng-container
+                              *ngIf="filters.startDate && filters.endDate"
+                            >
+                              Revenue - {{ filters.startDate }} To
+                              {{ filters.endDate }}</ng-container
+                            >
+                          </h4>
+                        </div>
+                        <div class="card-content">
+                          <div class="card-body">
+                            <div class="height-400">
+                              <canvas
+                                height="400"
+                                baseChart
+                                class="chart"
+                                [datasets]="lineChartDataForAll"
+                                [labels]="lineChartLabelsForAll"
+                                [options]="lineChartOptionsForRoyalties"
+                                [colors]="lineChartColorsForAll"
+                                [legend]="lineChartLegend"
+                                [chartType]="lineChartType"
+                              ></canvas>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Line Chart Ends -->
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="authService.isEarningAdmin() ? 4 : 3">
+                <a
+                  (click)="changetab('analysis')"
+                  ngbNavLink
+                  class="nav-link d-flex align-items-center"
+                >
+                  <span class="d-none d-sm-block">Analytics</span>
+                </a>
+                <ng-template ngbNavContent>
+                  <!-- Minimal statistics section start -->
+                  <section id="minimal-statistics">
+                    <fieldset
+                      class="form-group role_filter mb-2"
+                      [formGroup]="filterGroup"
+                    >
+                      <input
+                        class="form-control form-control-sm d-inline-block width-200 mr-1"
+                        type="text"
+                        ngxDaterangepickerMd
+                        [(ngModel)]="daterangefilter"
+                        [showCustomRangeLabel]="true"
+                        [alwaysShowCalendars]="true"
+                        [ngModelOptions]="{ standalone: true }"
+                        [ranges]="ranges"
+                        [linkedCalendars]="true"
+                        (change)="getByDate($event)"
+                        [isInvalidDate]="isInvalidDate"
+                        [showClearButton]="true"
+                        placeholder="Start Date - End Date"
+                      />
+                      <i
+                        *ngIf="isLoadingtable$ | async"
+                        class="fa fa-spin fa-spinner mr-1"
+                      ></i>
+
+                      <ng-select
+                        class="d-inline-block form-control-sm width-200 mr-1"
+                        placeholder="Select Channel"
+                        formControlName="channel"
+                      >
+                        <ng-option value="">Select Channel</ng-option>
+                        <ng-option
+                          value="{{ channel._id }}"
+                          *ngFor="let channel of channels"
+                        >
+                          {{ channel.channel_title }}
+                        </ng-option>
+                      </ng-select>
+                    </fieldset>
+                  </section>
+                  <!-- // Minimal statistics section end -->
+                  <div class="row text-left">
+                    <div class="col-sm-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <h4 class="card-title">
+                            <ng-container
+                              *ngIf="filters.startDate && filters.endDate"
+                            >
+                              Analytics - {{ filters.startDate }} To
+                              {{ filters.endDate }}</ng-container
+                            >
+                          </h4>
+                        </div>
+                        <div class="card-content">
+                          <div class="card-body">
+                            <div class="height-400">
+                              <canvas
+                                height="400"
+                                baseChart
+                                class="chart"
+                                [datasets]="lineChartDataForAnalysis"
+                                [labels]="lineChartLabelsForAnalysis"
+                                [options]="lineChartOptionsForAnalyticsChart"
+                                [colors]="lineChartColorsForAnalysis"
+                                [legend]="lineChartLegend"
+                                [chartType]="lineChartType"
+                              >
+                              </canvas>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Line Chart Ends -->
+                </ng-template>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div [ngbNavOutlet]="nav"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

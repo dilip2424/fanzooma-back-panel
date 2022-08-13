@@ -1,0 +1,68 @@
+<!-- Basic Inputs start -->
+<form [formGroup]="artistform" (ngSubmit)="save()">
+    <section id="basic-input">
+        <div class="row">
+            <div class="col-12">
+                <div class="card customisecard">
+                    <div class="card-header">
+                        <h4 class="card-title mt-1">Add Speaker</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body" >
+
+                            <ul class="errorsclass" *ngIf="finalerror.length > 0">
+                                <li *ngFor='let error of finalerror;'> {{ error }} </li>
+                            </ul>
+
+                            <div class="row">
+                                <div class="col-md-12 col-12">
+                                   
+                                    <div class="form-group">
+                                        <label for="contractname">Speaker <i class="fa fa-spin fa-spinner" *ngIf="!artists"></i><span
+                                            class="text-danger">*</span></label>
+                                      <ng-select [clearSearchOnAdd]="true" [items]="artists" bindLabel="name" bindValue="id" [multiple]="true" [closeOnSelect]="false"
+                                        placeholder="Select Artists" formControlName="artists">
+                                      </ng-select>
+                                      <div class="text-danger" *ngIf="submitted && artistform.get('artists').errors && 
+                                        artistform.get('artists').hasError('required')">
+                                            <span class="errormessage">Speakers is required</span>
+                                        </div>
+                                    </div>
+                                  </div>
+                                <div class="col-md-12">
+                                    <div class="form-group role_filter ">
+                                        <label for="contractname">Status <span
+                                                class="text-danger">*</span></label>
+                                        <ng-select class="form-control-sm" placeholder="Select Status"
+                                            formControlName="status">
+                                            <ng-option value="1">Active</ng-option>
+                                            <ng-option value="2">InActive</ng-option>
+                                            <ng-option value="3">Prospect</ng-option>
+                                        </ng-select>
+                                        <div class="text-danger" *ngIf="submitted && artistform.get('status').errors && 
+                                        artistform.get('status').hasError('required')">
+                                            <span class="errormessage">Status is required</span>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-sm btn-primary mr-2" [disabled]="isdisabled"><i
+                                class="ft-check-square mr-1"></i> <ng-container >Save </ng-container> <i class="fa fa-spinner fa-spin "
+                                *ngIf="isLoading$ | async"></i>
+                        </button>
+                        <a type="button" [routerLink]="['/artists']" class="btn btn-sm btn-secondary"><i
+                                class="ft-x mr-1"></i>Cancel</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+<!-- Basic Inputs end -->

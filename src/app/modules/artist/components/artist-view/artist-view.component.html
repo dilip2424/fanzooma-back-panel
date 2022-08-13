@@ -1,0 +1,147 @@
+<div class="row match-height">
+    <div class="col-xl-12 col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="media pt-0 pb-2">
+
+                    <img class="mr-3 avatar rounded" src="assets/img/default.jpg" width="90">
+
+                    <div class="media-body">
+                        <h4 class="font-medium-1 mb-1"><i class="fa fa-spin fa-spinner" *ngIf="!artist"></i>
+                            <ng-container *ngIf="artist">{{ artist.name }}
+                            </ng-container>
+                        </h4>
+                        <!-- <span class="text-muted d-block mb-1">Unique ID :- <i class="fa fa-spin fa-spinner"
+                                *ngIf="!artist"></i>
+                            <ng-container *ngIf="artist">{{ artist.artist_id }}
+                            </ng-container>
+                        </span> -->
+                        <div class="clearfix"></div>
+                        <ng-container *ngIf="artist">
+                            <span *ngIf="artist.status == 1" class="badge bg-light-success mr-2">Active</span>
+                            <span *ngIf="artist.status == 2" class="badge bg-light-danger mr-2">InActive</span>
+                        </ng-container>
+                    </div>
+                    <button type="button" [routerLink]="['/artists']" class="btn btn-light btn-sm"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row match-height">
+    <div class="col-xl-4 col-lg-4">
+        <!-- Info starts -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="card-title m-0">Detail</h4>
+                        <span class="cursor-pointer"><i class="ft-more-vertical-"></i></span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <ul class="list-unstyled mb-0">
+
+                                <li class="d-flex align-items-center mb-2">
+                                    <small>Description : <i class="fa fa-spin fa-spinner" *ngIf="!artist"></i>
+                                        <ng-container *ngIf="artist">{{ artist.description }}
+                                        </ng-container>
+                                        (Description)
+                                    </small>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body d-flex justify-content-between">
+                            <div class="followers-posts text-center">
+                                <h4 class="m-0">400</h4>
+                                <small class="text-muted">Posts</small>
+                            </div>
+                            <div class="followers text-center">
+                                <h4 class="m-0">194k</h4>
+                                <small class="text-muted">Followers</small>
+                            </div>
+                            <div class="followers-following text-center">
+                                <h4 class="m-0">248</h4>
+                                <small class="text-muted">Following</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- Info ends -->
+    </div>
+    <!-- <div [innerHtml]="artist.video_url"></div> -->
+    <div class="col-xl-8 col-lg-12">
+        <div class="row">
+            <div class="col-xl-4 col-lg-6 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body paddingcustom" [routerLink]="artist ? ['/Fanzooma-youtube-videos/artist',artist._id] : []">
+                            <div class="media">
+                                <div class="media-body text-left">
+                                    <h3 class="mb-1 success"><i class="fa fa-spin fa-spinner" *ngIf="!artist"></i>
+                                        <ng-container *ngIf="artist">{{artist.youtube_videos?artist.youtube_videos:0}}</ng-container>
+                                    </h3>
+                                    <span class="white-space-no-wrap">Youtube Videos</span>
+                                </div>
+                                <div class="media-right align-self-center">
+                                    <i class="ft-video success font-large-1 float-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body paddingcustom" [routerLink]="artist ? ['/content-library/artist',artist._id] : []">
+                            <div class="media">
+                                <div class="media-body text-left">
+                                    <h3 class="mb-1 warning"><i class="fa fa-spin fa-spinner" *ngIf="!artist"></i>
+                                        <ng-container *ngIf="artist">{{artist.clips?artist.clips:0}}</ng-container>
+                                    </h3>
+                                    <span class="white-space-no-wrap">Audios Available</span>
+                                </div>
+                                <div class="media-right align-self-center">
+                                    <i class="ft-music warning font-large-1 float-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body paddingcustom">
+                            <div class="media">
+                                <div class="media-body text-left">
+                                    <h3 class="mb-1 danger"><i class="fa fa-spin fa-spinner" *ngIf="!artist"></i>
+                                        <ng-container *ngIf="artist">0</ng-container>
+                                    </h3>
+                                    <span>Notes</span>
+                                </div>
+                                <div class="media-right align-self-center">
+                                    <i class="ft-clipboard danger font-large-1 float-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

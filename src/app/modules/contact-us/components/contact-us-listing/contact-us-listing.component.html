@@ -1,0 +1,98 @@
+<!-- Basic Datatables -->
+
+<section id="ngx-datatable-basic">
+  <div class="row">
+    <div class="col-12">
+      <div class="card customisecard">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-6">
+              <h4 class="card-title mt-1">Contact Us</h4>
+            </div>
+            <ng-container *ngIf="authservice.isCreator() || authservice.isRH()">
+              <div class="col-md-6">
+                <a [routerLink]="['/contact-us/add-new']" class="btn btn-sm btn-primary pull-right"><i class="fa fa-plus-circle"></i> Add Contact Us</a>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <fieldset class="form-group role_filter">
+              <label class="mr-1">Search:</label>
+              <input class="form-control form-control-sm d-inline-block width-200 mr-1" type="text" placeholder="Search" (keyup)="filterUpdate($event)" />
+            </fieldset>
+            <!-- ngx-datatable Basic -->
+
+
+            <ngx-datatable class="bootstrap core-bootstrap" [rows]="rows" rowHeight="auto" [messages]="my_messages" [columnMode]="ColumnMode.force" [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" [count]="count" [externalPaging]="true" [externalSorting]="true" [limit]="limit" [offset]="offset" (page)="setPage($event)" (sort)="onSort($event)">
+              <ng-container *ngIf="role == 'admin' || role == 'staff'">
+                <ngx-datatable-column class="datatable-row-left" [frozenLeft]="true" name="Name" prop="creatorData.name" [width]="100">
+                  <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                    <p role="button" [routerLink]="['/creators/view', row.creatorData._id]" class="text-capitalize">
+                      {{ row.creatorData.name }}
+                    </p>
+                  </ng-template>
+                </ngx-datatable-column>
+              </ng-container>
+
+              <ngx-datatable-column class="datatable-row-left" name="Subject" prop="subject" [width]="150">
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Message" prop="message" [width]="200">
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  <app-read-more [text]="row['message']" [maxLength]="90">
+                  </app-read-more>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Date" prop="createdAt" [width]="100">
+              </ngx-datatable-column>
+              <ng-container *ngIf="role == 'admin' || role == 'staff'">
+                <ngx-datatable-column name="Status" prop="status" [sortable]="false" [width]="100">
+                  <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                    <span class="badge badge-pill font-small" [ngClass]="{
+                                            'bg-light-info contact-us': row['status'] == 1,
+                                            'bg-light-primary': row['status'] == 2,
+                                            'bg-light-warning': row['status'] == 3,
+                                            'bg-light-success': row['status'] == 4
+                                            }" [ngSwitch]="row['status']">
+                      <span *ngSwitchCase="1">NEW</span>
+                      <span *ngSwitchCase="2">NOTED</span>
+                      <span *ngSwitchCase="3">IN-PROGRESS</span>
+                      <span *ngSwitchCase="4">COMPLETED</span>
+                    </span>
+                  </ng-template>
+                </ngx-datatable-column>
+
+
+                <ngx-datatable-column name="Action" [sortable]="false" [width]="200">
+                  <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                    <select class="form-control" [disabled]="authservice.isNonCRUDAdmin()" (change)="changeStatus($event, row._id)">
+                      <option value="1" [selected]="row['status'] == 1">
+                        New
+                      </option>
+                      <option value="2" [selected]="row['status'] == 2">
+                        Noted
+                      </option>
+                      <option value="3" [selected]="row['status'] == 3">
+                        In-progress
+                      </option>
+                      <option value="4" [selected]="row['status'] == 4">
+                        Completed
+                      </option>
+                    </select>
+                  </ng-template>
+                </ngx-datatable-column>
+              </ng-container>
+            </ngx-datatable>
+            <div class="spinner_loading" *ngIf="isLoadingtable$ | async">
+              <i class="fa fa-spinner fa-spin"></i> Loading...
+            </div>
+            <!--/ ngx-datatable Basic -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

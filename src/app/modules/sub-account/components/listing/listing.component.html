@@ -1,0 +1,83 @@
+<!-- Basic Datatables -->
+<section id="ngx-datatable-basic">
+  <div class="row">
+    <div class="col-12">
+      <div class="card customisecard">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-6">
+              <h4 class="card-title mt-1">Subaccounts</h4>
+            </div>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <fieldset class="form-group role_filter" [formGroup]="filterForm">
+              <!-- Search -->
+              <label class="mr-1">Search:</label>
+              <input class="form-control form-control-sm d-inline-block width-200 mr-1" type="text" placeholder="Search" formControlName="search" />
+
+              <!-- Date -->
+              <input class="form-control form-control-sm d-inline-block width-200 mr-1" type="text" ngxDaterangepickerMd formControlName="date_range" [showCustomRangeLabel]="true" [alwaysShowCalendars]="true" [ranges]=" ranges" [linkedCalendars]="true" [showClearButton]="true" placeholder="Start Date - End Date" />
+
+              <!-- Status -->
+              <ng-select formControlName="status" class="d-inline-block form-control-sm width-200 mr-1" placeholder="Select Status">
+                <ng-option value="active">Active</ng-option>
+                <ng-option value="inactive">Inactive</ng-option>
+              </ng-select>
+
+              <!-- Organization -->
+              <ng-select formControlName="org_id" class="d-inline-block form-control-sm width-200 mr-1" placeholder="Select Organization">
+                <ng-option *ngFor="let org of organizationsNames" [value]="org.id">{{ org.name }}</ng-option>
+              </ng-select>
+            </fieldset>
+
+            <ngx-datatable class="bootstrap core-bootstrap" [rows]="rows" rowHeight="auto" [messages]="my_messages" [columnMode]="ColumnMode.force" [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" [count]="count" [externalPaging]="true" [externalSorting]="true" [limit]="limit" [offset]="offset" (page)="setPage($event)" (sort)="onSort($event)">
+              <!-- email -->
+              <ngx-datatable-column class="datatable-row-left" [frozenLeft]="true" name="Name" prop="name" [width]="260">
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  <div class="d-flex align-items-center">
+                    <div [routerLink]="['/organization/view', row._id]" class="avatar avatar-admins mr-2 ml-0">
+                      <img height="60" width="60" alt="Fanzooma" class="rounded-circle" src="assets/img/default.jpg">
+                    </div>
+
+                    <div class="cell-line-height">
+                      <p class="font-medium-1 line-height-1 mb-0">{{ row.name }}</p>
+                      <p class="text-muted font-small-2 margintopbotton">
+                        {{ row.email }}
+                      </p>
+                      <p class="margintopbotton">
+                        <span class="badge badge-pill font-small" [ngClass]="{'bg-light-success': row.status == 'active', 'bg-light-danger': row.status == 'inactive' }">
+                          {{ row.status == 'active' ? "Active" : "InActive" }}
+                        </span>
+
+                      </p>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <!-- created at -->
+              <ngx-datatable-column name="Created at" prop="created_at" [width]="150">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  {{ row.created_at | date }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <!-- organization -->
+              <ngx-datatable-column name="Organization" [sortable]="false" [width]="150">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  {{ row.organization.name }}
+                </ng-template>
+              </ngx-datatable-column>
+
+            </ngx-datatable>
+            <div class="spinner_loading" *ngIf="isLoadingtable$ | async">
+              <i class="fa fa-spinner fa-spin "></i> Loading...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

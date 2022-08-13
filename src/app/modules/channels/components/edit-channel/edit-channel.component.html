@@ -1,0 +1,170 @@
+<!-- Basic Inputs start -->
+<form [formGroup]="channelformsec" (ngSubmit)="save()">
+    <section id="basic-input">
+        <div class="row">
+            <div class="col-12">
+                <div class="card customisecard">
+                    <div class="card-header">
+                        <h4 class="card-title mt-1">Edit Channel</h4>
+
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <ul class="errorsclass" *ngIf="finalerror.length > 0">
+                                <li *ngFor='let error of finalerror;'> {{ error }} </li>
+                            </ul>
+                            <div class="row">
+                                <ng-container *ngIf="role == 'admin'">
+                                    <div class="col-md-6 role_filter">
+                                        <fieldset class="form-group">
+                                            <label for="rightsholders">Creator</label>
+                                            <ng-select placeholder="Creators" formControlName="creator" readonly>
+                                                <ng-option value="">Select Creators</ng-option>
+                                                <ng-option value="{{creator._id}}" *ngFor="let creator of creators">
+                                                    {{creator.name}}
+                                                </ng-option>
+                                            </ng-select>
+                                            <div class="text-danger" *ngIf="submitted && channelformsec.get('creator').errors && 
+                                        channelformsec.get('creator').hasError('required')">
+                                                <span class="errormessage">Creator is required</span>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </ng-container>
+                                <div class="col-md-6">
+                                    <fieldset class="form-group">
+                                        <label for="channeltitle">Channel Title <span class="text-danger">
+                                                *</span></label>
+                                        <input type="text" class="form-control form-control-sm" id="channeltitle" [ngClass]="{'is-valid' : channelformsec.get('channel_title').valid }" placeholder="Channel Title" formControlName="channel_title">
+                                        <div class="text-danger" *ngIf="submitted && channelformsec.get('channel_title').errors && 
+                                        channelformsec.get('channel_title').hasError('required')">
+                                            <span class="errormessage">Channel Title is required</span>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-12">
+                                    <fieldset class="form-group">
+                                        <label for="channeldescription">Channel Discription</label>
+                                        <textarea class="form-control form-control-sm" id="channeldescription" placeholder="Channel Discription" formControlName="channel_description" rows="2"></textarea>
+
+                                        <div class="text-danger" *ngIf="submitted && channelformsec.get('channel_description').errors && 
+                                        channelformsec.get('channel_description').hasError('required')">
+                                            <span class="errormessage">Channel Discription is required</span>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-4" *ngIf="role == 'admin'">
+                                    <fieldset class="form-group">
+                                        <label for="earningreduction">Earning Reduction </label>
+                                        <input type="number" class="form-control form-control-sm" id="earningreduction" placeholder="Earning Reduction" formControlName="earning_reduction">
+                                        <div class="text-danger" *ngIf="submitted && channelformsec.get('earning_reduction').errors && 
+                                        channelformsec.get('earning_reduction').hasError('required')">
+                                            <span class="errormessage">Earning Reduction is required</span>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-4" *ngIf="role == 'admin'">
+                                    <fieldset class="form-group">
+                                        <label for="rightsholders">Contract Start Date </label>
+
+                                        <input type="date" class="form-control form-control-sm" placeholder="yyyy-mm-dd" formControlName="contract_start_date">
+                                        <div class="text-danger" *ngIf="submitted && channelformsec.get('contract_start_date').errors && 
+                                        channelformsec.get('contract_start_date').hasError('required')">
+                                            <span class="errormessage">Contract Start Date is required</span>
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-4" *ngIf="role == 'admin'">
+                                    <fieldset class="form-group">
+                                        <label for="rightsholders">Contract End Date </label>
+
+                                        <input type="date" class="form-control form-control-sm" placeholder="yyyy-mm-dd" formControlName="contract_end_date">
+                                        <div class="text-danger" *ngIf="submitted && channelformsec.get('contract_end_date').errors && 
+                                        channelformsec.get('contract_end_date').hasError('required')">
+                                            <span class="errormessage">Contract End Date is required</span>
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-6">
+                                    <fieldset class="form-group">
+                                        <label for="rightsholders">Channel Start Date </label>
+                                        <input type="date" class="form-control form-control-sm" placeholder="yyyy-mm-dd" formControlName="channel_start_date">
+                                        <div class="text-danger" *ngIf="submitted && channelformsec.get('channel_start_date').errors && 
+                                        channelformsec.get('channel_start_date').hasError('required')">
+                                            <span class="errormessage">Channel Start Date is required</span>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-6" *ngIf="role == 'admin'">
+                                    <fieldset class="form-group">
+                                        <label for="rightsholders">Revenue Start Date </label>
+
+                                        <input type="date" class="form-control form-control-sm" placeholder="yyyy-mm-dd" formControlName="revenue_start_date">
+                                        <div class="text-danger" *ngIf="submitted && channelformsec.get('revenue_start_date').errors && 
+                                        channelformsec.get('revenue_start_date').hasError('required')">
+                                            <span class="errormessage">Revenue Start Date is required</span>
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-md-6 ">
+                                    <fieldset class="form-group">
+                                        <label for="basicInput">Status</label>
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="d-inline-block mr-2">
+                                                <div class="radio radio-sm">
+                                                    <input type="radio" formControlName="status" value="1" id="radio1" checked>
+                                                    <label for="radio1">Active</label>
+                                                </div>
+                                            </li>
+                                            <li class="d-inline-block mr-2">
+                                                <div class="radio radio-sm">
+                                                    <input type="radio" formControlName="status" value="2" id="radio2">
+                                                    <label for="radio2">Inactive</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <fieldset class="form-group col-md-9">
+                                            <label for="ChannelIcon">Channel Icon</label>
+                                            <div class="custom-file">
+                                                <input type="file" accept="image/*" (change)="addImage($event)" formControlName="channel_icon" class="form-control custom-file-input" id="ChannelIcon">
+                                                <label class="custom-file-label" for="ChannelIcon">{{image?image:'Choose
+                                                    file'}}</label>
+                                            </div>
+                                        </fieldset>
+                                        <div class="prifile_pic col-md-3">
+                                            <img [src]="picturepicObj || 'assets/img/default.jpg'" class="fit-cover" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-footer" *ngIf="!at_bottom">
+                            <button type="submit" class="btn btn-sm btn-primary mr-2"><i class="ft-check-square mr-1"></i>Update <i class="fa fa-spinner fa-spin" *ngIf="isLoading$ | async"></i></button>
+                            <a type="button" [routerLink]="['/channels']" class="btn btn-sm btn-secondary"><i class="ft-x mr-1"></i>Cancel</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="float-save show " *ngIf="at_bottom">
+        <div class="col-sm-12">
+            <button type="submit" class="btn btn-sm btn-primary mr-2"><i class="ft-check-square mr-1"></i>Update <i class="fa fa-spinner fa-spin" *ngIf="isLoading$ | async"></i></button>
+            <a type="button" [routerLink]="['/channels']" class="btn btn-sm btn-secondary"><i class="ft-x mr-1"></i>Cancel</a>
+        </div>
+    </div>
+
+
+    <!-- Basic Inputs end -->
+</form>

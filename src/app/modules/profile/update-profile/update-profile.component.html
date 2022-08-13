@@ -1,0 +1,261 @@
+<!-- Basic Inputs start -->
+<section id="basic-input">
+  <form [formGroup]="profileForm" (ngSubmit)="updateBasicProfile()">
+    <div class="row">
+      <div class="col-12">
+        <div class="card customisecard">
+          <div class="card-header">
+            <h4 class="card-title mt-1">Update Basic Profile</h4>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+              <ul class="errorsclass" *ngIf="profileErrors.errors.length > 0">
+                <li *ngFor="let error of profileErrors.errors">{{ error }}</li>
+              </ul>
+              <div class="row">
+                <div class="col-md-4">
+                  <fieldset class="form-group">
+                    <label for="nameinput"
+                      >Name <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      id="nameinput"
+                      [ngClass]="{
+                        'is-valid': profileForm.get('name').valid
+                      }"
+                      placeholder="Enter Email"
+                      placeholder="Enter Name"
+                      formControlName="name"
+                    />
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        isProfileFormSubmitted &&
+                        profileForm.get('name').errors &&
+                        profileForm.get('name').hasError('required')
+                      "
+                    >
+                      <span class="errormessage">Name is required</span>
+                    </div>
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        isProfileFormSubmitted &&
+                        profileForm.get('name').errors &&
+                        profileForm.get('name').hasError('minlength')
+                      "
+                    >
+                      <span class="errormessage"
+                        >Name should be more than 2 character</span
+                      >
+                    </div>
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        isProfileFormSubmitted &&
+                        profileForm.get('name').errors &&
+                        profileForm.get('name').hasError('maxlength')
+                      "
+                    >
+                      <span class="errormessage"
+                        >Name shouldn't be more than 50 character.</span
+                      >
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-md-4">
+                  <fieldset class="form-group">
+                    <label for="emailinput"
+                      >Email <span class="text-danger">*</span></label
+                    >
+                    <input
+                      disabled
+                      type="text"
+                      class="form-control form-control-sm"
+                      id="emailinput"
+                      [ngClass]="{
+                        'is-valid': profileForm.get('email').valid
+                      }"
+                      placeholder="Enter Email"
+                      formControlName="email"
+                    />
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button
+              type="submit"
+              class="btn btn-sm btn-primary mr-2"
+              [disabled]="isLoading$ | async"
+            >
+              <i class="ft-check-square mr-1"></i> Update
+              <i class="fa fa-spinner fa-spin" *ngIf="isLoading$ | async"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()">
+    <div class="row">
+      <div class="col-12">
+        <div class="card customisecard">
+          <div class="card-header">
+            <h4 class="card-title mt-1">Update Password</h4>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+              <ul class="errorsclass" *ngIf="passwordErrors.errors.length > 0">
+                <li *ngFor="let error of passwordErrors.errors">{{ error }}</li>
+              </ul>
+              <div class="row">
+                <div class="col-md-4">
+                  <fieldset class="form-group">
+                    <label for="passwordInput"
+                      >Password <span class="text-danger">*</span>
+                    </label>
+                    <input
+                      type="password"
+                      autocomplete="new-password"
+                      formControlName="password"
+                      class="form-control form-control-sm"
+                      id="passwordInput"
+                      placeholder="Password"
+                    />
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        isPasswordFormSubmitted &&
+                        passwordForm.get('password').errors &&
+                        passwordForm.get('password').hasError('required')
+                      "
+                    >
+                      <span class="errormessage">Password is required</span>
+                    </div>
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        isPasswordFormSubmitted &&
+                        passwordForm.get('password').errors &&
+                        passwordForm.get('password').hasError('minlength')
+                      "
+                    >
+                      <span class="errormessage"
+                        >password should be minimum 6 characters.</span
+                      >
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-md-4">
+                  <fieldset class="form-group">
+                    <label for="passwordInput"
+                      >New Password <span class="text-danger">*</span>
+                    </label>
+                    <input
+                      type="password"
+                      autocomplete="new-password"
+                      formControlName="new_password"
+                      class="form-control form-control-sm"
+                      id="passwordInput"
+                      placeholder="Password"
+                    />
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        isPasswordFormSubmitted &&
+                        passwordForm.get('new_password').errors &&
+                        passwordForm.get('new_password').hasError('required')
+                      "
+                    >
+                      <span class="errormessage">Password is required</span>
+                    </div>
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        isPasswordFormSubmitted &&
+                        passwordForm.get('new_password').errors &&
+                        passwordForm.get('new_password').hasError('minlength')
+                      "
+                    >
+                      <span class="errormessage"
+                        >password should be minimum 6 characters.</span
+                      >
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-md-4">
+                  <fieldset class="form-group">
+                    <label for="passwordInput"
+                      >Confirm Password <span class="text-danger">*</span>
+                    </label>
+                    <input
+                      type="password"
+                      autocomplete="new-password"
+                      formControlName="confirm_password"
+                      class="form-control form-control-sm"
+                      id="passwordInput"
+                      placeholder="Password"
+                    />
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        isPasswordFormSubmitted &&
+                        passwordForm.get('confirm_password').errors &&
+                        passwordForm
+                          .get('confirm_password')
+                          .hasError('required')
+                      "
+                    >
+                      <span class="errormessage">Password is required</span>
+                    </div>
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        isPasswordFormSubmitted &&
+                        passwordForm.get('confirm_password').errors &&
+                        passwordForm
+                          .get('confirm_password')
+                          .hasError('minlength')
+                      "
+                    >
+                      <span class="errormessage"
+                        >password should be minimum 6 characters.</span
+                      >
+                    </div>
+
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        isPasswordFormSubmitted &&
+                        passwordForm.hasError('notSame')
+                      "
+                    >
+                      <span class="errormessage"
+                        >new password and confirm password should match.</span
+                      >
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button
+              type="submit"
+              class="btn btn-sm btn-primary mr-2"
+              [disabled]="isLoading$ | async"
+            >
+              <i class="ft-check-square mr-1"></i> Update
+              <i class="fa fa-spinner fa-spin" *ngIf="isLoading$ | async"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+<!-- Basic Inputs end -->

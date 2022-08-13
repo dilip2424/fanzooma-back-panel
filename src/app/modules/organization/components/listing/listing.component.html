@@ -1,0 +1,146 @@
+<!-- Basic Datatables -->
+<section id="ngx-datatable-basic">
+  <div class="row">
+    <div class="col-12">
+      <div class="card customisecard">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-6">
+              <h4 class="card-title mt-1">Organizations</h4>
+            </div>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <fieldset class="form-group role_filter" [formGroup]="filterForm">
+              <!-- Search -->
+              <label class="mr-1">Search:</label>
+              <input class="form-control form-control-sm d-inline-block width-200 mr-1" type="text" placeholder="Search" formControlName="search" />
+
+              <!-- Date -->
+              <input class="form-control form-control-sm d-inline-block width-200 mr-1" type="text" ngxDaterangepickerMd formControlName="date_range" [showCustomRangeLabel]="true" [alwaysShowCalendars]="true" [ranges]=" ranges" [linkedCalendars]="true" [showClearButton]="true" placeholder="Start Date - End Date" />
+
+              <!-- Status -->
+              <ng-select formControlName="status" class="d-inline-block form-control-sm width-200 mr-1" placeholder="Select Status">
+                <ng-option value="active">Active</ng-option>
+                <ng-option value="inactive">InActive</ng-option>
+              </ng-select>
+
+              <!-- is_subscribed -->
+              <ng-select formControlName="is_subscribed" class="d-inline-block form-control-sm width-200 mr-1" placeholder="Select Subscription status">
+                <ng-option value="yes">Subscribed</ng-option>
+                <ng-option value="no">Not subscribed</ng-option>
+              </ng-select>
+
+              <!-- plan cancelled -->
+              <ng-select formControlName="cancelled_plan" class="d-inline-block form-control-sm width-200 mr-1" placeholder="Select Cancellation status">
+                <ng-option value="no">Active plan</ng-option>
+                <ng-option value="yes">Plan Cancelled</ng-option>
+              </ng-select>
+
+              <!-- plan -->
+              <ng-select class="d-inline-block form-control-sm width-200 mr-1" placeholder="Select Plan" formControlName="plan">
+                <ng-option value="">Select Plan</ng-option>
+                <ng-option value="{{plan.id}}" *ngFor="let plan of plans">
+                  {{plan.name}}
+                </ng-option>
+              </ng-select>
+            </fieldset>
+
+            <ngx-datatable class="bootstrap core-bootstrap" [rows]="rows" rowHeight="auto" [messages]="my_messages" [columnMode]="ColumnMode.force" [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" [count]="count" [externalPaging]="true" [externalSorting]="true" [limit]="limit" [offset]="offset" (page)="setPage($event)" (sort)="onSort($event)">
+              <!-- email -->
+              <ngx-datatable-column class="datatable-row-left" [frozenLeft]="true" name="Name" prop="name" [width]="260">
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  <div class="d-flex align-items-center">
+                    <div [routerLink]="['/organization/view', row._id]" class="avatar avatar-admins mr-2 ml-0">
+                      <img height="60" width="60" alt="Fanzooma" class="rounded-circle" src="assets/img/default.jpg">
+                    </div>
+
+                    <div class="cell-line-height">
+                      <p role="button" class="font-medium-1 line-height-1 mb-0" [routerLink]="['/organization/view', row.id]">{{ row.name }}</p>
+                      <p class="text-muted font-small-2 margintopbotton">
+                        {{ row.email }}</p>
+                      <p class="margintopbotton">
+                        <a (click)="changestatus(row.id, row.status)"><span class="badge badge-pill font-small" [ngClass]="{'bg-light-success': row.status == 'active', 'bg-light-danger': row.status == 'inactive' }">
+                            {{ row.status == 'active' ? "Active" : "InActive" }}
+                          </span>
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <!-- created at -->
+              <ngx-datatable-column name="Created at" prop="created_at" [width]="150">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  {{ row.created_at | date }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Locations" prop="locations_count" [width]="100">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  <a [routerLink]="['/locations']" [state]="{'org': row.id}">{{ row.locations_count | number }}</a>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Broadcasts" [sortable]="false" [width]="100">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  {{ (row.broadcastCount ?? 0) | number }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Clubs" [sortable]="false" [width]="100">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  {{ (row.clubsCount ?? 0) | number }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Fans" [sortable]="false" [width]="100">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  {{ (row.fansCount ?? 0) | number }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Plivo numbers" [sortable]="false" [width]="100">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  {{ (row.numbersCount ?? 0) | number }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="TP balance" prop="tp_balance">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  ${{ row.tp_balance | number:'1.2-2'}}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Active plan" prop="active_plan_id">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  {{ getPlanName(row.active_plan_id) }}
+                  <span *ngIf="row.is_plan_cancled" class="badge badge-pill font-small bg-light-danger">Plan Cancelled</span>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Next Amount" prop="next_amount">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  ${{ (row.next_amount / 100) | number:'1.2-2'}}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Next due date" prop="next_due_date">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  {{ row.next_due_date | date }}
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+            <div class="spinner_loading" *ngIf="isLoadingtable$ | async">
+              <i class="fa fa-spinner fa-spin "></i> Loading...
+            </div>
+            <!--/ ngx-datatable Basic -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
