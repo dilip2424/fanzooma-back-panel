@@ -18,10 +18,11 @@
               <input class="form-control form-control-sm d-inline-block width-200 mr-1" type="text" placeholder="Search" formControlName="search" />
 
               <!-- Date -->
-              <input class="form-control form-control-sm d-inline-block width-200 mr-1" type="text" ngxDaterangepickerMd formControlName="date_range" [showCustomRangeLabel]="true" [alwaysShowCalendars]="true" [ranges]=" ranges" [linkedCalendars]="true" [showClearButton]="true" placeholder="Start Date - End Date" />
-              <!-- clubs -->
-              <ng-select formControlName="club" class="d-inline-block form-control-sm width-200 mr-1" placeholder="Select Club">
-                <ng-option *ngFor="let club of clubNames" [value]="club.id">{{ club.name }}</ng-option>
+              <input class="form-control form-control-sm d-inline-block width-200 mr-1" type="text" ngxDaterangepickerMd formControlName="date_range" [showCustomRangeLabel]="true" [alwaysShowCalendars]="true" [ranges]="ranges" [linkedCalendars]="true" [showClearButton]="true" placeholder="Start Date - End Date" />
+              
+              <!-- tags -->
+              <ng-select formControlName="location" class="d-inline-block form-control-sm width-200 mr-1" placeholder="Select Location">
+                <ng-option *ngFor="let loc of locNames" [value]="loc.id">{{ loc.location_name }}</ng-option>
               </ng-select>
 
               <!-- email -->
@@ -51,17 +52,17 @@
                     <div class="cell-line-height">
                       <p class="font-medium-1 line-height-1 mb-0">{{ row.description }}</p>
                       <p class="text-muted font-small-2 margintopbotton">
-                        {{ row.club?.name}}
+                        {{ row.tag?.location_name}}
                       </p>
                     </div>
                   </div>
                 </ng-template>
               </ngx-datatable-column>
 
-              <!-- club name -->
-              <ngx-datatable-column name="Club" [sortable]="false">
+              <!-- tag name -->
+              <ngx-datatable-column name="Tag" [sortable]="false">
                 <ng-template ngx-datatable-cell-template let-row="row">
-                  {{ row.club?.name }}
+                  {{ row.location?.location_name }}
                 </ng-template>
               </ngx-datatable-column>
 

@@ -113,14 +113,14 @@
         <div class="col-xl-6 col-lg-6 col-12">
           <div class="card">
             <div class="card-content">
-              <div class="card-body paddingcustom" [routerLink]="organization && ['/Fanzooma-youtube-videos/organization', organization.id]">
+              <div class="card-body paddingcustom" >
                 <div class="media">
                   <div class="media-body text-left">
                     <h3 class="mb-1 success">
                       <i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
                       <ng-container *ngIf="organization">{{(organization.locations_count ?? 0) | number}}</ng-container>
                     </h3>
-                    <span class="white-space-no-wrap">Locations</span>
+                    <span class="white-space-no-wrap">Tags</span>
                   </div>
                   <div class="media-right align-self-center">
                     <i class="ft-map-pin success font-large-1 float-right"></i>
@@ -135,7 +135,7 @@
         <div class="col-xl-6 col-lg-6 col-12">
           <div class="card">
             <div class="card-content">
-              <div class="card-body paddingcustom" [routerLink]="organization && ['/dashboard']" [state]="{ id: organization?.id, isAnalyticsTab: true }">
+              <div class="card-body paddingcustom" >
                 <div class="media">
                   <div class="media-body text-left">
                     <h3 class="mb-1 danger">
@@ -155,35 +155,11 @@
           </div>
         </div>
 
-        <!-- clubs count  -->
-        <div class="col-xl-6 col-lg-6 col-12">
-          <div class="card">
-            <div class="card-content">
-              <div class="card-body paddingcustom" [routerLink]="organization && ['/dashboard']" [state]="{ id: organization?.id, isAnalyticsTab: true }">
-                <div class="media">
-                  <div class="media-body text-left">
-                    <h3 class="mb-1 warning">
-                      <i class="fa fa-spin fa-spinner" *ngIf="!organization"></i>
-                      <ng-container *ngIf="organization">{{
-                        (organization.clubs_count ?? 0) | number
-                        }}</ng-container>
-                    </h3>
-                    <span>Clubs</span>
-                  </div>
-                  <div class="media-right align-self-center">
-                    <i class="ft-list warning font-large-1 float-right"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- fans count  -->
         <div class="col-xl-6 col-lg-6 col-12">
           <div class="card">
             <div class="card-content">
-              <div class="card-body paddingcustom" [routerLink]="organization && ['/dashboard']" [state]="{ id: organization?.id, isAnalyticsTab: true }">
+              <div class="card-body paddingcustom" >
                 <div class="media">
                   <div class="media-body text-left">
                     <h3 class="mb-1 warning">
@@ -209,7 +185,7 @@
         <div class="col-xl-6 col-lg-6 col-12">
           <div class="card">
             <div class="card-content">
-              <div class="card-body paddingcustom" [routerLink]="organization && ['/dashboard']" [state]="{ id: organization?.id, isAnalyticsTab: true }">
+              <div class="card-body paddingcustom" >
                 <div class="media">
                   <div class="media-body text-left">
                     <h3 class="mb-1 warning">

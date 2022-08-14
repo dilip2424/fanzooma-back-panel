@@ -52,12 +52,12 @@
               <ngx-datatable-column class="datatable-row-left" [frozenLeft]="true" name="Name" prop="name" [width]="260">
                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                   <div class="d-flex align-items-center">
-                    <div [routerLink]="['/organization/view', row._id]" class="avatar avatar-admins mr-2 ml-0">
+                    <div class="avatar avatar-admins mr-2 ml-0">
                       <img height="60" width="60" alt="Fanzooma" class="rounded-circle" src="assets/img/default.jpg">
                     </div>
 
                     <div class="cell-line-height">
-                      <p role="button" class="font-medium-1 line-height-1 mb-0" [routerLink]="['/organization/view', row.id]">{{ row.name }}</p>
+                      <p class="font-medium-1 line-height-1 mb-0" >{{ row.name }}</p>
                       <p class="text-muted font-small-2 margintopbotton">
                         {{ row.email }}</p>
                       <p class="margintopbotton">
@@ -65,6 +65,9 @@
                             {{ row.status == 'active' ? "Active" : "InActive" }}
                           </span>
                         </a>
+                      </p>
+                      <p role="button" (click)="orgLogin(row.id)">
+                        Login >>
                       </p>
                     </div>
                   </div>
@@ -78,42 +81,42 @@
                 </ng-template>
               </ngx-datatable-column>
 
-              <ngx-datatable-column name="Locations" prop="locations_count" [width]="100">
+              <!-- Tags  -->
+              <ngx-datatable-column name="tags" prop="locations_count" [width]="100">
                 <ng-template ngx-datatable-cell-template let-row="row">
-                  <a [routerLink]="['/locations']" [state]="{'org': row.id}">{{ row.locations_count | number }}</a>
+                  <a [routerLink]="['/tags']" [state]="{'org': row.id}">{{ row.locations_count | number }}</a>
                 </ng-template>
               </ngx-datatable-column>
 
+              <!-- Broadcast count  -->
               <ngx-datatable-column name="Broadcasts" [sortable]="false" [width]="100">
                 <ng-template ngx-datatable-cell-template let-row="row">
                   {{ (row.broadcastCount ?? 0) | number }}
                 </ng-template>
               </ngx-datatable-column>
 
-              <ngx-datatable-column name="Clubs" [sortable]="false" [width]="100">
-                <ng-template ngx-datatable-cell-template let-row="row">
-                  {{ (row.clubsCount ?? 0) | number }}
-                </ng-template>
-              </ngx-datatable-column>
-
+              <!-- Fan count  -->
               <ngx-datatable-column name="Fans" [sortable]="false" [width]="100">
                 <ng-template ngx-datatable-cell-template let-row="row">
                   {{ (row.fansCount ?? 0) | number }}
                 </ng-template>
               </ngx-datatable-column>
 
+              <!-- Number count  -->
               <ngx-datatable-column name="Plivo numbers" [sortable]="false" [width]="100">
                 <ng-template ngx-datatable-cell-template let-row="row">
                   {{ (row.numbersCount ?? 0) | number }}
                 </ng-template>
               </ngx-datatable-column>
 
+              <!-- TP balance  -->
               <ngx-datatable-column name="TP balance" prop="tp_balance">
                 <ng-template ngx-datatable-cell-template let-row="row">
                   ${{ row.tp_balance | number:'1.2-2'}}
                 </ng-template>
               </ngx-datatable-column>
 
+              <!-- Active plan id  -->
               <ngx-datatable-column name="Active plan" prop="active_plan_id">
                 <ng-template ngx-datatable-cell-template let-row="row">
                   {{ getPlanName(row.active_plan_id) }}
@@ -121,12 +124,14 @@
                 </ng-template>
               </ngx-datatable-column>
 
+              <!-- Next amount  -->
               <ngx-datatable-column name="Next Amount" prop="next_amount">
                 <ng-template ngx-datatable-cell-template let-row="row">
                   ${{ (row.next_amount / 100) | number:'1.2-2'}}
                 </ng-template>
               </ngx-datatable-column>
 
+              <!-- Due date  -->
               <ngx-datatable-column name="Next due date" prop="next_due_date">
                 <ng-template ngx-datatable-cell-template let-row="row">
                   {{ row.next_due_date | date }}

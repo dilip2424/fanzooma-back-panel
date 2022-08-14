@@ -6,7 +6,7 @@
         <div class="card-header">
           <div class="row">
             <div class="col-md-6">
-              <h4 class="card-title mt-1">Locations</h4>
+              <h4 class="card-title mt-1">Tags</h4>
             </div>
           </div>
         </div>
@@ -55,21 +55,15 @@
                 </ng-template>
               </ngx-datatable-column>
 
-              <ngx-datatable-column name="Clubs" prop="clubs_count" [width]="100">
-                <ng-template ngx-datatable-cell-template let-row="row">
-                  <a [routerLink]="['/clubs']" [state]="{'location': row.id}">{{ (row.clubs_count ?? 0) | number }}</a>
-                </ng-template>
-              </ngx-datatable-column>
-
               <ngx-datatable-column name="Broadcasts" prop="broadcasts_count" [width]="100">
                 <ng-template ngx-datatable-cell-template let-row="row">
-                  {{ (row.broadcasts_count ?? 0) | number }}
+                  <a [routerLink]="['/broadcasts']" [state]="{'location': row.id}">{{ (row.broadcasts_count ?? 0) | number }}</a>
                 </ng-template>
               </ngx-datatable-column>
 
               <ngx-datatable-column name="Fans" prop="fans_count" [width]="100">
                 <ng-template ngx-datatable-cell-template let-row="row">
-                  {{ (row.fans_count ?? 0) | number }}
+                  <a [routerLink]="['/fans']" [state]="{'tag': row.id}">{{ (row.fans_count ?? 0) | number }}</a>
                 </ng-template>
               </ngx-datatable-column>
 

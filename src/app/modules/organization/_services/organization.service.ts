@@ -1,11 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { environment } from 'environments/environment';
-import { BehaviorSubject } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { environment } from "environments/environment";
+import { BehaviorSubject } from "rxjs";
+import { finalize } from "rxjs/operators";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class OrganizationService {
   private _isLoading$ = new BehaviorSubject<boolean>(false);
@@ -42,12 +42,16 @@ export class OrganizationService {
   }
 
   changestatus(id, status) {
-    return this.http.put(`${this.apiUrl}/admin/organization/status/${id}`, {
+    return this.http.post(`${this.apiUrl}/admin/organization/status/${id}`, {
       status,
     });
   }
 
   getById(id) {
     return this.http.post(`${this.apiUrl}/admin/organization/${id}`, {});
+  }
+
+  login(id) {
+    return this.http.post(`${this.apiUrl}/admin/organization/login/${id}`, {});
   }
 }

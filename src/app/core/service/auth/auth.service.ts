@@ -1,14 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UserModel } from 'app/core/models/user.model';
-import { Roles } from 'app/roles';
-import { environment } from 'environments/environment';
-import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { UserModel } from "app/core/models/user.model";
+import { environment } from "environments/environment";
+import { BehaviorSubject, Observable, of, Subscription } from "rxjs";
+import { finalize, map } from "rxjs/operators";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AuthService {
   private unsubscribe: Subscription[] = [];
@@ -143,7 +142,7 @@ export class AuthService {
 
   private getStorage(): any {
     try {
-      const authData = localStorage.getItem('token');
+      const authData = localStorage.getItem("adm_token");
       return authData;
     } catch (error) {
       console.error(error);
@@ -152,20 +151,20 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('token');
+    localStorage.removeItem("adm_token");
     this.currentUserSubject.next(undefined);
-    this.router.navigate(['/login']);
+    this.router.navigate(["/login"]);
   }
 
   setStorage(auth: any) {
     if (auth?.token) {
-      localStorage.setItem('token', auth.token);
-      localStorage.setItem('user_id', auth.user.id);
+      localStorage.setItem("adm_token", auth.token);
+      localStorage.setItem("user_id", auth.user.id);
     }
   }
 
   clearStorage() {
-    localStorage.removeItem('token');
+    localStorage.removeItem("adm_token");
     this.currentUserSubject.next(undefined);
   }
 }
