@@ -139,7 +139,6 @@ export class ListingComponent implements OnInit {
       (resp: any) => {
         const { data, message } = resp;
         this.rows = data.docs;
-        this.countLocationParameters();
         this.count = data.count;
         this.offset = this.page - 1;
         this.currentdocsize = this.rows.length;
@@ -151,25 +150,6 @@ export class ListingComponent implements OnInit {
       },
       (err) => {}
     );
-  }
-
-  countLocationParameters() {
-    this.rows.forEach((row) => {
-      if (row.locations.length > 0) {
-        let broadcastCount, numberCount, fanCount, clubCount;
-        broadcastCount = numberCount = fanCount = clubCount = 0;
-        row.locations.forEach((loc) => {
-          broadcastCount += loc.broadcasts_count;
-          numberCount += loc.numbers_count;
-          fanCount += loc.fans_count;
-          clubCount += loc.clubs_count;
-        });
-        row.broadcastCount = broadcastCount;
-        row.numberCount = numberCount;
-        row.fanCount = fanCount;
-        row.clubCount = clubCount;
-      }
-    });
   }
 
   filterParams() {

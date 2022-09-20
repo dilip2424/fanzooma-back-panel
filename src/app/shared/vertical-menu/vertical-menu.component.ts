@@ -1,36 +1,36 @@
 import {
-  Component,
-  OnInit,
-  ViewChild,
-  OnDestroy,
-  ElementRef,
   AfterViewInit,
   ChangeDetectorRef,
+  Component,
+  ElementRef,
   HostListener,
-} from '@angular/core';
-import { ROUTES } from './vertical-menu-routes.config';
-import { HROUTES } from '../horizontal-menu/navigation-routes.config';
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import { HROUTES } from "../horizontal-menu/navigation-routes.config";
+import { ROUTES } from "./vertical-menu-routes.config";
 
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { customAnimations } from '../animations/custom-animations';
-import { DeviceDetectorService } from 'ngx-device-detector';
-import { ConfigService } from '../services/config.service';
-import { Subscription } from 'rxjs';
-import { LayoutService } from '../services/layout.service';
-import { AuthService } from 'app/core/service/auth/auth.service';
-import { ContactUsService } from 'app/modules/contact-us/_services/contact-us.service';
+import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
+import { AuthService } from "app/core/service/auth/auth.service";
+import { ContactUsService } from "app/modules/contact-us/_services/contact-us.service";
+import { DeviceDetectorService } from "ngx-device-detector";
+import { Subscription } from "rxjs";
+import { customAnimations } from "../animations/custom-animations";
+import { ConfigService } from "../services/config.service";
+import { LayoutService } from "../services/layout.service";
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './vertical-menu.component.html',
+  selector: "app-sidebar",
+  templateUrl: "./vertical-menu.component.html",
   animations: customAnimations,
 })
 export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('toggleIcon') toggleIcon: ElementRef;
+  @ViewChild("toggleIcon") toggleIcon: ElementRef;
   public menuItems: any[];
   level: number = 0;
-  logoUrl = 'assets/mindset/logo.png';
+  logoUrl = "assets/mindset/logo.png";
   public config: any = {};
   protected innerWidth: any;
   layoutSub: Subscription;
@@ -79,7 +79,7 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.authservice.currentUser$.subscribe((user) => {
-      this.type = this.authservice.currentUserValue.role;
+      this.type = this.authservice.currentUserValue?.role;
       this.menuItems = ROUTES;
 
       // if (this.authservice.isAdminCategory()) {
@@ -128,14 +128,14 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.layoutSub = this.layoutService.overlaySidebarToggle$.subscribe(
       (collapse) => {
-        if (this.config.layout.menuPosition === 'Side') {
+        if (this.config.layout.menuPosition === "Side") {
           this.collapseSidebar = collapse;
         }
       }
     );
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onWindowResize(event) {
     if (this.resizeTimeout) {
       clearTimeout(this.resizeTimeout);
@@ -150,21 +150,21 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadLayout() {
-    if (this.config.layout.menuPosition === 'Top') {
+    if (this.config.layout.menuPosition === "Top") {
       // Horizontal Menu
       if (this.innerWidth < 1200) {
         // Screen size < 1200
         this.menuItems = HROUTES;
       }
-    } else if (this.config.layout.menuPosition === 'Side') {
+    } else if (this.config.layout.menuPosition === "Side") {
       // Vertical Menu{
       this.menuItems = ROUTES;
     }
 
-    if (this.config.layout.sidebar.backgroundColor === 'white') {
-      this.logoUrl = 'assets/img/logo-dark.png';
+    if (this.config.layout.sidebar.backgroundColor === "white") {
+      this.logoUrl = "assets/img/logo-dark.png";
     } else {
-      this.logoUrl = 'assets/mindset/logo.png';
+      this.logoUrl = "assets/mindset/logo.png";
     }
 
     if (this.config.layout.sidebar.collapsed) {
@@ -185,8 +185,8 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   fireRefreshEventOnWindow = function () {
-    const evt = document.createEvent('HTMLEvents');
-    evt.initEvent('resize', true, false);
+    const evt = document.createEvent("HTMLEvents");
+    evt.initEvent("resize", true, false);
     window.dispatchEvent(evt);
   };
 

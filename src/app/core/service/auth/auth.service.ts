@@ -151,6 +151,7 @@ export class AuthService {
   }
 
   logout() {
+    console.log("Logging out");
     localStorage.removeItem("adm_token");
     this.currentUserSubject.next(undefined);
     this.router.navigate(["/login"]);
@@ -158,12 +159,14 @@ export class AuthService {
 
   setStorage(auth: any) {
     if (auth?.token) {
+      console.log("Setting the storage");
       localStorage.setItem("adm_token", auth.token);
       localStorage.setItem("user_id", auth.user.id);
     }
   }
 
   clearStorage() {
+    console.log("clearing the storage)");
     localStorage.removeItem("adm_token");
     this.currentUserSubject.next(undefined);
   }

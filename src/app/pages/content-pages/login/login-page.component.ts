@@ -1,23 +1,17 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component } from "@angular/core";
 
-import {
-  NgForm,
-  FormGroup,
-  FormControl,
-  Validators,
-  FormBuilder,
-} from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from 'app/core/service/auth/auth.service';
-import ServerErrors from 'app/core/shared/serverErrors';
-import { ToastrService } from 'ngx-toastr';
-import { Observable, Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { AuthService } from "app/core/service/auth/auth.service";
+import ServerErrors from "app/core/shared/serverErrors";
+import { ToastrService } from "ngx-toastr";
+import { Observable } from "rxjs";
+import { first } from "rxjs/operators";
 
 @Component({
-  selector: 'app-login-page',
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss'],
+  selector: "app-login-page",
+  templateUrl: "./login-page.component.html",
+  styleUrls: ["./login-page.component.scss"],
 })
 export class LoginPageComponent {
   loginForm: FormGroup;
@@ -38,8 +32,8 @@ export class LoginPageComponent {
 
   initForm() {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      email: ["", [Validators.required, Validators.email]],
+      password: ["", [Validators.required]],
     });
   }
 
@@ -53,7 +47,7 @@ export class LoginPageComponent {
   ) {
     this.isLoading$ = this.authService.isLoading$;
     if (this.authService.currentUserValue) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(["/dashboard"]);
     }
   }
 
@@ -74,13 +68,15 @@ export class LoginPageComponent {
       .pipe(first())
       .subscribe(
         (data) => {
-          this.router.navigate(['/dashboard']);
+          console.log("In submit");
+          this.router.navigate(["/dashboard"]);
         },
         (err) => {
+          console.log("In errors");
           const { errors, message } = err.error;
           this.serverErrors.errors = errors;
           this.isLoginFailed = true;
-          this.toastr.error(message, 'Error!');
+          this.toastr.error(message, "Error!");
         }
       );
   }

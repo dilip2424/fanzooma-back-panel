@@ -84,7 +84,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "baseHref": "/fazooma-back-panel"
+              "baseHref": "/fanzooma-back-panel/"
             }
           }
         },
