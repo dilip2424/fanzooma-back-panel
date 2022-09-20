@@ -105,6 +105,17 @@ export const ROUTES: RouteInfo[] = [
     submenu: [],
     hasaccess: [SUPER_ADMIN, ADMIN],
   },
+  {
+    path: "/settings",
+    title: "Settings",
+    icon: "ft-speaker",
+    class: "",
+    badge: "",
+    badgeClass: "",
+    isExternalLink: false,
+    submenu: [],
+    hasaccess: [SUPER_ADMIN, ADMIN],
+  },
   // {
   //   path: '',
   //   title: 'Payments',

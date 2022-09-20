@@ -99,6 +99,10 @@ export class ListingComponent implements OnInit {
       ...this.filterParams(),
     };
 
+    if (params.location) {
+      params.location = [params.location];
+    }
+
     this.broadcastService.getAll(params).subscribe(
       (resp: any) => {
         const { data, message } = resp;

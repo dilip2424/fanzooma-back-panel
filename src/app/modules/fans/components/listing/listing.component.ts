@@ -99,6 +99,22 @@ export class ListingComponent implements OnInit {
       ...this.filterParams(),
     };
 
+    // let form_data = new FormData();
+
+    // for (let key in params) {
+    //   if (key == "location") continue;
+    //   if (params[key] == null) continue;
+    //   form_data.append(key, params[key]);
+    // }
+
+    // if (this.filterForm.controls.location.value != null) {
+    //   form_data.append("location[]", this.filterForm.controls.location.value);
+    // }
+
+    if (this.filterForm.controls.location.value) {
+      params["location"] = [this.filterForm.controls.location.value];
+    }
+
     this.fansService.getAll(params).subscribe(
       (resp: any) => {
         const { data, message } = resp;

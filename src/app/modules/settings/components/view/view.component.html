@@ -1,1 +1,65 @@
-<p>view works!</p>
+<!-- Basic Datatables -->
+<section id="tp-settings">
+  <div class="row">
+    <div class="col-12">
+      <div class="card customisecard">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-6">
+              <h4 class="card-title mt-1">TP settings</h4>
+            </div>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="card-body" [formGroup]="form">
+            <form [formGroup]="form"></form>
+            <table>
+              <tr>
+                <th>From</th>
+                <th>To</th>
+                <th>Price</th>
+              </tr>
+              <tr *ngFor="let row of tpSettings; let i = index">
+                <td>{{ row.from }}</td>
+                <td>
+                  <ng-container *ngIf="row.to != null">{{
+                    row.to
+                  }}</ng-container>
+                  <ng-container *ngIf="row.to == null">&infin;</ng-container>
+                </td>
+                <td>
+                  <input
+                    class="form-control form-control-sm d-inline-block width-100 mr-1"
+                    type="number"
+                    placeholder="Price"
+                    [formControlName]="i.toString()"
+                  />
+                  <div
+                    class="text-danger"
+                    *ngIf="form.get(i.toString()).hasError('required')"
+                  >
+                    <span class="errormessage">This field is required</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+            <div class="spinner_loading" *ngIf="isLoading$ | async">
+              <i class="fa fa-spinner fa-spin"></i> Loading...
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button
+            type="button"
+            (click)="save()"
+            class="btn btn-sm btn-primary mr-2"
+            [disabled]="isLoading$ | async"
+          >
+            <i class="ft-check-square mr-1"></i> Save
+            <i class="fa fa-spinner fa-spin" *ngIf="isLoading$ | async"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

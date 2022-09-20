@@ -59,6 +59,13 @@ export const Full_ROUTES: Routes = [
         (m) => m.BroadcastModule
       ),
   },
+  {
+    path: "settings",
+    loadChildren: () =>
+      import("app/modules/settings/settings.module").then(
+        (m) => m.SettingsModule
+      ),
+  },
 
   /************************************* */
   {

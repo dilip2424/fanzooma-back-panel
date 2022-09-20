@@ -82,17 +82,13 @@
                 >
                   <div class="d-flex align-items-center">
                     <div class="cell-line-height">
-                      <p
-                        role="button"
-                        class="font-medium-1 line-height-1 mb-0"
-                        [routerLink]="['/location/view', row.id]"
-                      >
-                        {{ row.location_name }}
+                      <p class="font-medium-1 line-height-1 mb-0">
+                        {{ row.tag_name }}
                       </p>
-                      <p class="text-muted font-small-2 margintopbotton">
+                      <!-- <p class="text-muted font-small-2 margintopbotton">
                         {{ row.geo_area.geo_area }} |
                         {{ row.geo_area.geo_area_code }}
-                      </p>
+                      </p> -->
                     </div>
                   </div>
                 </ng-template>
@@ -124,16 +120,20 @@
                 <ng-template ngx-datatable-cell-template let-row="row">
                   <a
                     [routerLink]="['/broadcasts']"
-                    [state]="{ location: row.id }"
+                    [state]="{ location: row?.id }"
                     >{{ row.broadcasts_count ?? 0 | number }}</a
                   >
                 </ng-template>
               </ngx-datatable-column>
 
-              <ngx-datatable-column name="Fans" prop="fans_count" [width]="100">
+              <ngx-datatable-column
+                name="Fans"
+                prop="fan_details_count"
+                [width]="100"
+              >
                 <ng-template ngx-datatable-cell-template let-row="row">
                   <a [routerLink]="['/fans']" [state]="{ tag: row.id }">{{
-                    row.fans_count ?? 0 | number
+                    row.fan_details_count ?? 0 | number
                   }}</a>
                 </ng-template>
               </ngx-datatable-column>
