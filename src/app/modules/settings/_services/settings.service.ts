@@ -23,19 +23,28 @@ export class SettingsService {
   }
 
   getSettings() {
-    this._isLoadingtable$.next(true);
+    this._isLoading$.next(true);
     return this.http.get(`${this.apiUrl}/admin/settings`).pipe(
       finalize(() => {
-        this._isLoadingtable$.next(false);
+        this._isLoading$.next(false);
       })
     );
   }
 
   setTPSettings(body) {
-    this._isLoadingtable$.next(true);
+    this._isLoading$.next(true);
     return this.http.post(`${this.apiUrl}/admin/settings/tp`, body).pipe(
       finalize(() => {
-        this._isLoadingtable$.next(false);
+        this._isLoading$.next(false);
+      })
+    );
+  }
+
+  setTPCounts(body) {
+    this._isLoading$.next(true);
+    return this.http.post(`${this.apiUrl}/admin/settings/tp-counts`, body).pipe(
+      finalize(() => {
+        this._isLoading$.next(false);
       })
     );
   }

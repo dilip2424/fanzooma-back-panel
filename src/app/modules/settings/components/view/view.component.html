@@ -1,5 +1,5 @@
-<!-- Basic Datatables -->
 <section id="tp-settings">
+  <!-- TP price structure -->
   <div class="row">
     <div class="col-12">
       <div class="card customisecard">
@@ -52,6 +52,99 @@
           <button
             type="button"
             (click)="save()"
+            class="btn btn-sm btn-primary mr-2"
+            [disabled]="isLoading$ | async"
+          >
+            <i class="ft-check-square mr-1"></i> Save
+            <i class="fa fa-spinner fa-spin" *ngIf="isLoading$ | async"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card customisecard">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-6">
+              <h4 class="card-title mt-1">TP count settings</h4>
+            </div>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="card-body row" [formGroup]="tpForm">
+            <div class="col-md-4">
+              <fieldset class="form-group">
+                <label for="sms-tp-count"
+                  >SMS TP count : <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  id="sms-tp-count"
+                  placeholder="Enter TP Count"
+                  formControlName="sms"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="tpForm.get('sms').hasError('required')"
+                >
+                  <span class="errormessage">This field is required</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="col-md-4">
+              <fieldset class="form-group">
+                <label for="mms-tp-count"
+                  >MMS TP count : <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  id="mms-tp-count"
+                  placeholder="Enter TP Count"
+                  formControlName="mms"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="tpForm.get('mms').hasError('required')"
+                >
+                  <span class="errormessage">This field is required</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="col-md-4">
+              <fieldset class="form-group">
+                <label for="reply-message-tp-count"
+                  >Reply message TP count :
+                  <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  id="reply-message-tp-count"
+                  placeholder="Enter TP Count"
+                  formControlName="reply_message"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="tpForm.get('reply_message').hasError('required')"
+                >
+                  <span class="errormessage">This field is required</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="spinner_loading" *ngIf="isLoading$ | async">
+              <i class="fa fa-spinner fa-spin"></i> Loading...
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button
+            type="button"
+            (click)="saveTPCounts()"
             class="btn btn-sm btn-primary mr-2"
             [disabled]="isLoading$ | async"
           >

@@ -12,6 +12,7 @@ export class ViewComponent implements OnInit {
   tpSettings = [];
   isLoading$: any;
   form: FormGroup;
+  tpForm: FormGroup;
 
   constructor(
     private settingsService: SettingsService,
@@ -21,8 +22,9 @@ export class ViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading$ = this.settingsService.isLoading$;
-    this.loadSettings();
     this.initForm();
+    this.initTPForm();
+    this.loadSettings();
   }
 
   initForm() {
@@ -37,10 +39,19 @@ export class ViewComponent implements OnInit {
     });
   }
 
+  initTPForm() {
+    this.tpForm = new FormGroup({
+      sms: new FormControl(null, [Validators.required]),
+      mms: new FormControl(null, [Validators.required]),
+      reply_message: new FormControl(null, [Validators.required]),
+    });
+  }
+
   loadSettings() {
     this.settingsService.getSettings().subscribe(
       (resp: any) => {
         const { data, message } = resp;
+        const dataToObj = {};
         data.forEach((d) => {
           if (d.key == "tp_price_structure") {
             this.tpSettings = JSON.parse(d.value);
@@ -52,12 +63,41 @@ export class ViewComponent implements OnInit {
             this.form.patchValue(pricesObj);
             console.log(this.form.value);
           }
+
+          dataToObj[d.key] = d.value;
         });
-        console.log(this.tpSettings);
+
+        this.tpForm.patchValue(dataToObj);
+
+        console.log(data);
+
         this.cd.markForCheck();
       },
       (err) => {}
     );
+  }
+
+  saveTPCounts() {
+    if (this.tpForm.invalid) return;
+
+    const value = this.tpForm.value;
+    this.settingsService
+      .setTPCounts({
+        ...value,
+      })
+      .subscribe(
+        (resp: any) => {
+          this.loadSettings();
+          this.toastr.success(resp.message, "Success", {
+            positionClass: "toast-top-right",
+          });
+        },
+        (err) => {
+          this.toastr.error("Cannot update at the moment", "Error", {
+            positionClass: "toast-top-right",
+          });
+        }
+      );
   }
 
   save() {
