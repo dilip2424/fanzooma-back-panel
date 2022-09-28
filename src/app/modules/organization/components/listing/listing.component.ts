@@ -4,7 +4,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { environment } from "environments/environment";
 import * as moment from "moment";
@@ -55,6 +55,8 @@ export class ListingComponent implements OnInit {
     "Last 90 Days": [moment().subtract(89, "days"), moment()],
     "Last 365 Days": [moment().subtract(364, "days"), moment()],
   };
+  tpForm: FormGroup;
+  isTPFormSubmitted: boolean = false;
 
   constructor(
     private orgService: OrganizationService,
@@ -67,6 +69,7 @@ export class ListingComponent implements OnInit {
 
   ngOnInit() {
     this.initFilterForm();
+    this.initTPForm();
     this.getOrganizations();
     this.getPlans();
   }
@@ -100,6 +103,22 @@ export class ListingComponent implements OnInit {
     this.filterForm.valueChanges.subscribe(() => {
       this.resetPage();
       this.getOrganizations();
+    });
+  }
+
+  initTPForm() {
+    this.tpForm = this.fb.group({
+      org_id: [null, [Validators.required]],
+      tp: [null, [Validators.required, Validators.min(1)]],
+    });
+  }
+
+  openTPForm(orgId) {
+    this.tpForm.controls.org_id.setValue(orgId);
+    this.isTPFormSubmitted = false;
+    this.rows = this.rows.map((r) => {
+      if (r.id == orgId) return { ...r, isAddTPFormOpened: true };
+      else return { ...r, isAddTPFormOpened: false };
     });
   }
 
@@ -139,6 +158,13 @@ export class ListingComponent implements OnInit {
       (resp: any) => {
         const { data, message } = resp;
         this.rows = data.docs;
+        this.rows = this.rows.map((r: any) => {
+          return {
+            ...r,
+            isAddTPFormOpened: false,
+          };
+        });
+
         this.count = data.count;
         this.offset = this.page - 1;
         this.currentdocsize = this.rows.length;
@@ -173,6 +199,15 @@ export class ListingComponent implements OnInit {
   orgLogin(id) {
     this.orgService.login(id).subscribe((resp: any) => {
       window.open(`${environment.frontUrl}?token=${resp.data.token}`, "_blank");
+    });
+  }
+
+  addTP() {
+    this.isTPFormSubmitted = true;
+    if (this.tpForm.invalid) return;
+
+    this.orgService.addTP(this.tpForm.value).subscribe((resp: any) => {
+      this.getOrganizations();
     });
   }
 

@@ -230,6 +230,61 @@
                   {{ row.next_due_date | date }}
                 </ng-template>
               </ngx-datatable-column>
+
+              <!-- Action buttons  -->
+              <ngx-datatable-column name="Actions" prop="actions">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  <button
+                    *ngIf="row.isAddTPFormOpened == false"
+                    class="btn btn-sm btn-primary pull-right"
+                    (click)="openTPForm(row.id)"
+                  >
+                    <i class="fa fa-plus-circle"></i> Add TP
+                  </button>
+
+                  <div
+                    [formGroup]="tpForm"
+                    *ngIf="row.isAddTPFormOpened == true"
+                    style="display: flex; flex-direction: column; gap: 0.5rem"
+                  >
+                    <input
+                      class="form-control form-control-sm d-inline-block width-100 mr-1"
+                      type="number"
+                      placeholder="TP"
+                      formControlName="tp"
+                    />
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        isTPFormSubmitted &&
+                        tpForm.get('tp').hasError('required')
+                      "
+                    >
+                      <span class="errormessage">This field is required</span>
+                    </div>
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        isTPFormSubmitted && tpForm.get('tp').hasError('min')
+                      "
+                    >
+                      <span class="errormessage">Minimum TP should be 1</span>
+                    </div>
+                    <button
+                      type="button"
+                      (click)="addTP()"
+                      class="btn btn-sm btn-primary mr-2"
+                      [disabled]="isLoading$ | async"
+                    >
+                      <i class="ft-check-square mr-1"></i> Save
+                      <i
+                        class="fa fa-spinner fa-spin"
+                        *ngIf="isLoading$ | async"
+                      ></i>
+                    </button>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
             </ngx-datatable>
             <div class="spinner_loading" *ngIf="isLoadingtable$ | async">
               <i class="fa fa-spinner fa-spin"></i> Loading...

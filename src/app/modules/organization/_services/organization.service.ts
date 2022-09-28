@@ -54,4 +54,15 @@ export class OrganizationService {
   login(id) {
     return this.http.post(`${this.apiUrl}/admin/organization/login/${id}`, {});
   }
+
+  addTP(body) {
+    this._isLoading$.next(true);
+    return this.http
+      .post(`${this.apiUrl}/admin/organization/add-tp`, body)
+      .pipe(
+        finalize(() => {
+          this._isLoading$.next(false);
+        })
+      );
+  }
 }
