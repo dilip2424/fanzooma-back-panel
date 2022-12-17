@@ -23,7 +23,7 @@
               "css-element-queries",
               "chart.js"
             ],
-            "outputPath": "dist/fanzooma-back-panel",
+            "outputPath": "dist/admin",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
@@ -84,7 +84,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "baseHref": "/fanzooma-back-panel/"
+              "baseHref": "/admin/"
             }
           }
         },

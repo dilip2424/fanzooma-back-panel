@@ -178,9 +178,9 @@
 
               <!-- Number count  -->
               <ngx-datatable-column
-                name="Plivo numbers"
+                name="Assigned Plivo numbers"
                 [sortable]="false"
-                [width]="100"
+                [width]="200"
               >
                 <ng-template ngx-datatable-cell-template let-row="row">
                   {{ row.numbers_count ?? 0 | number }}
@@ -190,7 +190,7 @@
               <!-- TP balance  -->
               <ngx-datatable-column name="TP balance" prop="tp_balance">
                 <ng-template ngx-datatable-cell-template let-row="row">
-                  ${{ row.tp_balance | number: "1.2-2" }}
+                  {{ row.tp_balance | number }} TP
                 </ng-template>
               </ngx-datatable-column>
 

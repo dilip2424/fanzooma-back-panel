@@ -7,10 +7,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { PipeModule } from 'app/shared/pipes/pipe.module';
+
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { RouterModule, Routes } from '@angular/router';
+import { PipeModule } from '../../shared/pipes/pipe.module';
 
 const routes: Routes = [
   {

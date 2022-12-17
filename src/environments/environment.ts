@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  apiUrl: "http://localhost/fanzooma-backend-laravel/api",
-  frontUrl: "http://localhost:4200/after-club/fanzooma",
+  apiUrl: "https://fanzooma.com/fanzooma-backend-laravel/api",
+  frontUrl: "https://fanzooma.com/after-club/fanzooma",
 };
