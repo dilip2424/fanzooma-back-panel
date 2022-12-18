@@ -1,8 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { environment } from "environments/environment";
+
 import { BehaviorSubject } from "rxjs";
 import { finalize } from "rxjs/operators";
+import { environment } from "../../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -31,9 +32,34 @@ export class SettingsService {
     );
   }
 
+  getAll(params) {
+    this._isLoadingtable$.next(true);
+    return this.http.post(`${this.apiUrl}/admin/user/allplan`, params).pipe(
+      finalize(() => {
+        this._isLoadingtable$.next(false);
+      })
+    );
+  }
+
+  changestatus(id, status) {
+    return this.http.put(`${this.apiUrl}/admin/user/change-status/${id}`, { status });
+  }
   setTPSettings(body) {
     this._isLoading$.next(true);
     return this.http.post(`${this.apiUrl}/admin/settings/tp`, body).pipe(
+      finalize(() => {
+        this._isLoading$.next(false);
+      })
+    );
+  }
+
+  delete(id) {
+    return this.http.delete(`${this.apiUrl}/admin/user/delete/${id}`);
+  }
+
+  create(admin: any) {
+    this._isLoading$.next(true);
+    return this.http.post(`${this.apiUrl}/admin/user/add`, admin).pipe(
       finalize(() => {
         this._isLoading$.next(false);
       })

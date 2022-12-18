@@ -1,9 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AuthService } from "app/core/service/auth/auth.service";
-import { environment } from "environments/environment";
+
+
 import { BehaviorSubject } from "rxjs";
 import { finalize } from "rxjs/operators";
+import { environment } from "../../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -13,7 +14,7 @@ export class DashboardService {
   private _isLoadingtable$ = new BehaviorSubject<boolean>(false);
 
   private apiUrl = environment.apiUrl;
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient) { }
 
   get isLoading$() {
     return this._isLoading$.asObservable();
@@ -33,6 +34,14 @@ export class DashboardService {
     return this.http.post(`${this.apiUrl}/dashboard/revenue`, params);
   }
 
+  getcounts() {
+    this._isLoading$.next(true);
+    return this.http.get(`${this.apiUrl}/admin/getcounts`).pipe(
+      finalize(() => {
+        this._isLoading$.next(false);
+      })
+    );
+  }
   getallDataGraphAccount(params) {
     this._isLoadingtable$.next(true);
     return this.http
@@ -65,11 +74,9 @@ export class DashboardService {
   }
   getDashboardTableListing(params) {
     this._isLoading$.next(true);
-    const role = this.authService.currentusertype();
+
     let paginateAPI = `${this.apiUrl}/dashboard/creator/paginate`;
-    if (role == "right_holder") {
-      paginateAPI = `${this.apiUrl}/dashboard/rights/holder/paginate`;
-    }
+
     return this.http.post(paginateAPI, params).pipe(
       finalize(() => {
         this._isLoading$.next(false);
@@ -89,7 +96,7 @@ export class DashboardService {
 
   getDashboardRightHolderGraph(params) {
     this._isLoadingtable$.next(true);
-    const role = this.authService.currentusertype();
+
     let paginateAPI = `${this.apiUrl}/dashboard/rights/holder/graph`;
     return this.http.post(paginateAPI, params).pipe(
       finalize(() => {

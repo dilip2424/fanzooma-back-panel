@@ -108,7 +108,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: "/settings",
     title: "Settings",
-    icon: "ft-speaker",
+    icon: "ft-settings",
     class: "",
     badge: "",
     badgeClass: "",

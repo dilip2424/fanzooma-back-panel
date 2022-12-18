@@ -1,3 +1,94 @@
-<app-dashboard *ngIf="authService.isAdminCategory()"></app-dashboard>
+<!-- <app-dashboard *ngIf="authService.isAdminCategory()"></app-dashboard>
 <app-dashboard-creator-listing *ngIf="authService.isCreator()"></app-dashboard-creator-listing>
-<app-dashboard-right-holder-listing *ngIf="authService.isRH()"></app-dashboard-right-holder-listing>
+<app-dashboard-right-holder-listing *ngIf="authService.isRH()"></app-dashboard-right-holder-listing> -->
+
+<div class="col-xl-12 col-lg-12">
+    <div class="row">
+
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body paddingcustom">
+                        <div class="media">
+                            <div class="media-body text-left">
+                                <h3 class="mb-1 warning"><i class="fa fa-spin fa-spinner"
+                                        *ngIf="isLoading$ | async"></i>
+                                    <ng-container *ngIf="allcounts">{{ allcounts.organizations }}
+                                    </ng-container>
+                                </h3>
+                                <span class="white-space-no-wrap">Total Organizations</span>
+                            </div>
+                            <div class="media-right align-self-center">
+                                <i class="ft-users warning font-large-1 float-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body paddingcustom">
+                        <div class="media">
+                            <div class="media-body text-left">
+                                <h3 class="mb-1 danger"><i class="fa fa-spin fa-spinner"
+                                        *ngIf="isLoading$ | async"></i>
+                                    <ng-container *ngIf="allcounts">{{ allcounts.tags }}
+                                    </ng-container>
+                                </h3>
+                                <span>Total Tags</span>
+                            </div>
+                            <div class="media-right align-self-center">
+                                <i class="ft-users danger font-large-1 float-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body paddingcustom">
+                        <div class="media">
+                            <div class="media-body text-left">
+                                <h3 class="mb-1 success"><i class="fa fa-spin fa-spinner"
+                                        *ngIf="isLoading$ | async"></i>
+                                    <ng-container *ngIf="allcounts">{{ allcounts.fans }}
+                                    </ng-container>
+                                </h3>
+                                <span class="white-space-no-wrap">Total Fans</span>
+                            </div>
+                            <div class="media-right align-self-center">
+                                <i class="ft-users success font-large-1 float-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body paddingcustom">
+                        <div class="media">
+                            <div class="media-body text-left">
+                                <h3 class="mb-1 success"><i class="fa fa-spin fa-spinner"
+                                        *ngIf="isLoading$ | async"></i>
+                                    <ng-container *ngIf="allcounts">{{ allcounts.broadcasts }}
+                                    </ng-container>
+                                </h3>
+                                <span class="white-space-no-wrap">Total Broadcasts</span>
+                            </div>
+                            <div class="media-right align-self-center">
+                                <i class="ft-users success font-large-1 float-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</div>

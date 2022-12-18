@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'app/core/service/auth/auth.service';
+import { DashboardService } from '../_services/dashboard.service';
+
 
 @Component({
   selector: 'app-main-dashboard',
@@ -8,9 +9,21 @@ import { AuthService } from 'app/core/service/auth/auth.service';
 })
 export class MainDashboardComponent implements OnInit {
 
-  constructor(public authService: AuthService) { }
+  artist: any;
+  isLoading$: any;
+  allcounts : any;
+  constructor(private dashboardService: DashboardService) {
+    this.isLoading$ = this.dashboardService.isLoading$;
+  }
 
   ngOnInit(): void {
+    this.getCounts();
+  }
+
+  getCounts(){
+    this.dashboardService.getcounts().subscribe((res : any) => {
+      this.allcounts = res.data;
+    })
   }
 
 }

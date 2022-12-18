@@ -1,0 +1,85 @@
+<!-- Basic Inputs start -->
+<form [formGroup]="adminform" (ngSubmit)="save()">
+    <section id="basic-input">
+        <div class="row">
+            <div class="col-12">
+                <div class="card customisecard">
+                    <div class="card-header">
+                        Add Plan
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <ul class="errorsclass" *ngIf="finalerror.length > 0">
+                                <li *ngFor="let error of finalerror">{{ error }}</li>
+                            </ul>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="basicInput">Type <span class="text-danger">*</span></label>
+                                    <div class="form-group">
+                                        <select placeholder="Select Role" class="form-control form-control-sm"
+                                            formControlName="type">
+                                            <option value="one_time">One Time</option>
+                                            <option value="monthly">Monthly</option>
+                                        </select>
+                                        <div class="text-danger"
+                                            *ngIf="submitted && adminform.get('type').errors && adminform.get('type').hasError('required')">
+                                            <span class="errormessage">Type is required</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <fieldset class="form-group">
+                                        <label for="nameinput">Tp Count <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control form-control-sm" id="nameinput"
+                                            [ngClass]="{ 'is-valid': adminform.get('tp_value').valid }"
+                                            placeholder="Tp Count" formControlName="tp_value" />
+
+                                        <div class="text-danger"
+                                            *ngIf="submitted && adminform.get('tp_value').errors && adminform.get('tp_value').hasError('required')">
+                                            <span class="errormessage">Tp Count is required</span>
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <fieldset class="form-group">
+                                        <label for="nameinput">Price (1 TP) <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control form-control-sm" id="nameinput"
+                                            [ngClass]="{ 'is-valid': adminform.get('price').valid }"
+                                            placeholder="Tp Count" formControlName="price" />
+                                        <span class="text-muted font-small-2">1 TP = 0.01</span>
+                                        <div class="text-danger "
+                                            *ngIf="submitted && adminform.get('price').errors && adminform.get('price').hasError('required')">
+                                            <span class="errormessage ">Price (1 TP) is required</span>
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-12">
+                                    <fieldset class="form-group">
+                                        Total Price :- <b>${{ total }}</b>
+                                    </fieldset>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-sm btn-primary mr-2" [disabled]="isdisabled">
+                            <i class="ft-check-square mr-1"></i> Save <i class="fa fa-spinner fa-spin"
+                                *ngIf="isLoading$ | async"></i>
+                        </button>
+                        <a type="button" [routerLink]="['/settings']" class="btn btn-sm btn-secondary"><i
+                                class="ft-x mr-1"></i>Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+<!-- Basic Inputs end -->
