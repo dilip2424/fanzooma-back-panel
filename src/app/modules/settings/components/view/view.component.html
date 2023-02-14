@@ -55,12 +55,12 @@
               </ngx-datatable-column>
               <ngx-datatable-column name="Per Tp Price" prop="tp_value" [width]="200">
                 <ng-template ngx-datatable-cell-template let-row="row">
-                  {{ row.price }}
+                  {{ gettotalprice(row.price)  }}
                 </ng-template>
               </ngx-datatable-column>
               <ngx-datatable-column name="Total Price" [sortable]="false" prop="total" [width]="200">
                 <ng-template ngx-datatable-cell-template let-row="row">
-                  {{ row.price * row.tp_value }}
+                  {{ (row.price * row.tp_value) | number : '1.2-2' }}
                 </ng-template>
               </ngx-datatable-column>
               <ngx-datatable-column name="Type" prop="type" [width]="200">

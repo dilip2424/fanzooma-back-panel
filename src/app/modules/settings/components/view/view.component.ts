@@ -135,7 +135,19 @@ export class ViewComponent implements OnInit {
   }
 
 
-
+  gettotalprice(price){
+   
+    var char = price.charAt(price.length-1);
+    
+    let finalprice = price;
+    if(char == 0){
+      finalprice = price.substring(0,price.length-1);
+    }else{
+      finalprice = price;
+    }
+    
+    return finalprice;
+  }
   getadminlist() {
     const params = {
       limit: this.limit,
@@ -150,6 +162,8 @@ export class ViewComponent implements OnInit {
         this.cd.markForCheck();
         const { message, data } = resp;
         this.rows = data.docs;
+       
+        
         this.count = data.count;
         this.offset = this.page - 1;
         this.currentdocsize = this.rows.length;
@@ -278,15 +292,13 @@ export class ViewComponent implements OnInit {
               pricesObj[i.toString()] = p;
             });
             this.form.patchValue(pricesObj);
-            console.log(this.form.value);
+          
           }
 
           dataToObj[d.key] = d.value;
         });
 
         this.tpForm.patchValue(dataToObj);
-
-        console.log(data);
 
         this.cd.markForCheck();
       },
