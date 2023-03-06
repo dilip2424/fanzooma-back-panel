@@ -275,7 +275,33 @@ export class ViewComponent implements OnInit {
       sms: new FormControl(null, [Validators.required]),
       mms: new FormControl(null, [Validators.required]),
       reply_message: new FormControl(null, [Validators.required]),
+      home_image: new FormControl(null, [Validators.required])
     });
+  }
+
+  getFile(e) {
+
+    let extensionAllowed = {"png":true,"jpeg":true,"jpg":true};
+    console.log(e.target.files);
+    if (e.target.files[0].size / 1024 / 1024 > 20) {
+      alert("File size should be less than 20MB")
+      return;
+    }
+    if (extensionAllowed) {
+      var nam = e.target.files[0].name.split('.').pop();
+      if (!extensionAllowed[nam]) {
+        alert("Please upload " + Object.keys(extensionAllowed) + " file.")
+        return;
+      }
+    }
+    console.log(e.target.files[0]);
+    
+    const reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = () => {
+      this.tpForm.controls["home_image"].setValue(reader.result);
+    };
+
   }
 
   loadSettings() {
@@ -307,6 +333,7 @@ export class ViewComponent implements OnInit {
   }
 
   saveTPCounts() {
+    console.log(this.tpForm.value)
     if (this.tpForm.invalid) return;
 
     const value = this.tpForm.value;

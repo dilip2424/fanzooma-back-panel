@@ -155,6 +155,16 @@
                 </div>
               </fieldset>
             </div>
+            <div class="col-md-4">
+              <fieldset class="form-group">
+                <label for="reply-message-tp-count">Select Home Image :
+                  <span class="text-danger">*</span></label>
+                  <input type="file" (change)="getFile($event)"  id="upload-file" type="file" accept=".jpg,.jpeg,.png"  />
+                <div class="text-danger" *ngIf="tpForm.get('reply_message').hasError('required')">
+                  <span class="errormessage">This field is required</span>
+                </div>
+              </fieldset>
+            </div>
             <div class="spinner_loading" *ngIf="isLoading$ | async">
               <i class="fa fa-spinner fa-spin"></i> Loading...
             </div>

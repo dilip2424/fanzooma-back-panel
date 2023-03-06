@@ -23,7 +23,7 @@ import { first } from 'rxjs/operators';
 import ServerErrors from 'app/core/shared/serverErrors';
 
 @Component({
-  selector: 'app-update-profile',
+  selector: 'app-update-profile',     
   templateUrl: './update-profile.component.html',
   styleUrls: [
     './update-profile.component.scss',
@@ -36,12 +36,15 @@ export class UpdateProfileComponent implements OnInit {
 
   profileForm: FormGroup;
   passwordForm: FormGroup;
+  imageForm: FormGroup;
 
   isProfileFormSubmitted = false;
   isPasswordFormSubmitted = false;
+  isImageFormSubmitted = false;
 
   profileErrors = new ServerErrors();
   passwordErrors = new ServerErrors();
+  imageErrors = new ServerErrors();
 
   constructor(
     private fb: FormBuilder,
@@ -49,6 +52,13 @@ export class UpdateProfileComponent implements OnInit {
     private adminservice: AdminService,
     public authserive: AuthService
   ) {}
+
+  imageChangedEvent: any = "";
+
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+  }
+
 
   checkPasswords: ValidatorFn = (
     group: AbstractControl
@@ -113,6 +123,27 @@ export class UpdateProfileComponent implements OnInit {
       );
     }
   }
+  // updateBasicImage() {
+  //   this.isImageFormSubmitted = true;
+  //   if (this.imageForm.valid) {
+  //     this.adminservice.updateBasicImage(this.imageForm.value).subscribe(
+  //       (resp: any) => {
+  //         const { data, message } = resp;
+  //         this.toastr.success(message, 'Success', {
+  //           positionClass: 'toast-top-right',
+  //         });
+  //         location.reload();
+  //       },
+  //       (err) => {
+  //         const { errors, message } = err.error;
+  //         this.imageErrors = errors;
+  //         this.toastr.error(message, 'Error', {
+  //           positionClass: 'toast-top-right',
+  //         });
+  //       }
+  //     );
+  //   }
+  // }
 
   updatePassword() {
     this.isPasswordFormSubmitted = true;

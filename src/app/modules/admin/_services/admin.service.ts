@@ -70,6 +70,18 @@ export class AdminService extends FilterService {
       );
   }
 
+  updateBasicImage(body) {
+    this._isLoading$.next(true);
+
+    return this.http
+      .post(`${this.apiUrl}/admin/user/profile-update`, body)
+      .pipe(
+        finalize(() => {
+          this._isLoading$.next(false);
+        })
+      );
+  }
+
   updatePassword(body) {
     this._isLoading$.next(true);
 

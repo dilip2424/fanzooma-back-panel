@@ -257,5 +257,47 @@
       </div>
     </div>
   </form>
+  <!-- <form [formGroup]="imageForm" (ngSubmit)="updateBasicImage()">
+    <div class="row">
+      <div class="col-12">
+        <div class="card customisecard">
+          <div class="card-header">
+            <h4 class="card-title mt-1">Update Home Page Image</h4>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+              <ul class="errorsclass" *ngIf="imageErrors.errors.length > 0">
+                <li *ngFor="let error of imageErrors.errors"></li>
+              </ul>
+              <div class="row">
+                <div class="col-md-4">
+                    <label for="nameinput"
+                      >Select Image File: <span class="text-danger">*</span></label
+                    >
+                    <input
+                    type="file"
+                    id="upload-file"
+                    type="file"
+                    accept=".jpg,.jpeg,.png"
+                    (change)="fileChangeEvent($event)"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button
+              type="submit"
+              class="btn btn-sm btn-primary mr-2"
+              [disabled]="isLoading$ | async"
+            >
+              <i class="ft-check-square mr-1"></i> Update
+              <i class="fa fa-spinner fa-spin" *ngIf="isLoading$ | async"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form> -->
 </section>
 <!-- Basic Inputs end -->
